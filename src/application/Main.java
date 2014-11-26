@@ -1,11 +1,15 @@
-package application;
-	
-
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 /**
  *  © 2014 Engineering Customer Success. Pegasystems Worldwide Pvt.Ltd
  */
+package application;
+
+/**
+ * @author ramas6
+ *
+ */
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
