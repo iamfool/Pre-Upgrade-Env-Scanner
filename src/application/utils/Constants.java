@@ -14,6 +14,8 @@ public final class Constants
 	public static final String POSTGRE = "Postgre SQL";
 	public static final String EMPTY = "";
 	public static final String SUBMIT_ERROR = "Connection failed - One or more values are empty";
+	public static final String CONNECTION_ERROR = "Connection Error";
+	public static final String CONNECTION_SUCCESS = "Connecion status : Success";
 	
 
 	
@@ -27,9 +29,9 @@ public final class Constants
 	
 	
 	/*All URLs*/
-	public static final String DB2_UDB_URL = "jdbc:db2://<server_name>:<port_name>/<database_name>";
-	public static final String ORACLE_URL = "jdbc:oracle:thin:@<server>[:<1521>]:<database_name>";
-	public static final String MSSQL_URL = "jdbc:sqlserver://<server_name>:1433;databaseName=<database_name>";
+	public static final String DB2_UDB_URL = "jdbc:db2://localhost:50000/dbName:fullyMaterializeLobData=true;fullyMaterializeInputStreams=true;progressiveStreaming=2;useJDBC4ColumnNameAndLabelSemantics=2;";
+	public static final String ORACLE_URL = "jdbc:oracle:thin:@//localhost:1521/dbName";
+	public static final String MSSQL_URL = "jdbc:sqlserver://localhost:1433;database=dbName;SelectMethod=cursor;SendStringParametersAsUnicode=false";
 	
 	
 

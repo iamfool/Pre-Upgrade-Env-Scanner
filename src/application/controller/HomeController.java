@@ -12,7 +12,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.sql.Connection; 
 import java.sql.DriverManager; 
-import java.sql.SQLException;
+
+
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -28,7 +29,15 @@ import javafx.scene.layout.AnchorPane;
 import application.utils.Constants;
 import application.utils.Utilities;
 
+//load drivers
+import com.ibm.db2.jcc.DB2Driver;
+import oracle.jdbc.OracleDriver;
+import com.microsoft.sqlserver.jdbc.SQLServerDriver;
 
+
+
+
+@SuppressWarnings("unused")
 public class HomeController implements Initializable 
 {
 	// list of fxids
@@ -89,20 +98,18 @@ public class HomeController implements Initializable
         
 		if (!variablesEmpty())
 		{
-			try {
-				Class.forName("COM.ibm.db2.jcc.DB2Driver");
-				Connection  connection = 
-		                DriverManager.getConnection(url.getText(),uname.getText(),pwd.getText()); 
-		      
+			try 
+			{
+				Connection  connection = DriverManager.getConnection(url.getText(),uname.getText(),pwd.getText()); 
+				errorcode.setText(Constants.CONNECTION_SUCCESS);
 			} 
-			catch (ClassNotFoundException | SQLException e) 
+			catch (Exception e) 
 			{
 				
 				e.printStackTrace();
+				errorcode.setText("Connection Error" + e.getMessage());
 			} 
-	        
-			//errorcode.setText( "From DAO, connection obtained " );
-			
+	        	
 		}
 		
     }
