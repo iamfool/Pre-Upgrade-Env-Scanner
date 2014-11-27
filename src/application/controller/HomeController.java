@@ -47,7 +47,7 @@ public class HomeController implements Initializable
 	@FXML private TextField dataSchema;
 	@FXML private Label errorcode;
 	
-	
+	 String dbTypeChoice ;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -56,6 +56,7 @@ public class HomeController implements Initializable
 		// initialize db vendor choice
 		dbChoice.setItems(FXCollections.observableArrayList(Constants.DB2_UDB,Constants.ORACLE,Constants.MSSQL) );
 		dbChoice.setValue(Constants.DB2_UDB);
+		dbTypeChoice = Constants.DB2_UDB;
 		url.setText(Constants.DB2_UDB_URL);
 		
 		// add listener to set url
@@ -70,12 +71,15 @@ public class HomeController implements Initializable
 				{
 					case 0:
 						url.setText(Constants.DB2_UDB_URL);
+						dbTypeChoice = Constants.DB2_UDB_URL;
 						break;
 					case 1:
 						url.setText(Constants.ORACLE_URL);
+						dbTypeChoice = Constants.ORACLE_URL;
 						break;
 					case 2:
 						url.setText(Constants.MSSQL_URL);
+						dbTypeChoice = Constants.MSSQL_URL;
 						break;
 					default:
 						url.setText(Constants.EMPTY);
@@ -90,7 +94,7 @@ public class HomeController implements Initializable
 	{
 	   if (!variablesEmpty())
 	   {
-			DBMetaData connect = DBUtils.getConnection(url.getText(),uname.getText(),pwd.getText(),ruleSchema.getText(),dataSchema.getText());
+			DBMetaData connect = DBUtils.getConnection(dbTypeChoice,url.getText(),uname.getText(),pwd.getText(),ruleSchema.getText(),dataSchema.getText());
 			if (connect.isConnSuccess())
 			{
 				errorcode.setText(Constants.CONNECTION_SUCCESS);
@@ -101,17 +105,13 @@ public class HomeController implements Initializable
 				errorcode.setText(Constants.CONNECTION_ERROR + connect.getErrorMessage());
 				return;
 			}
-	       
 			
 			//set details in root controller so it can be accessed everywhere
 			LoadController rootControl = Navigator.getFxLoader().getController();
-			rootControl.setMetaData(connect);
-			rootControl.getMetaData();
+			rootControl.holdMetaData(connect);
 			
 			 //load validate pane as connection succeeded 
-			Navigator.loadScreen(Constants.VALIDATE_FXML);
-	          
-	           
+			Navigator.loadScreen(Constants.VALIDATE_FXML);      
 	}	
     }
 

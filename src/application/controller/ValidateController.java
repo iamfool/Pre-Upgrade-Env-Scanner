@@ -8,11 +8,15 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.cell.ChoiceBoxListCell;
 import application.DBMetaData;
 import application.utils.Constants;
 
@@ -20,6 +24,7 @@ import application.utils.Constants;
  * @author ramas6
  *
  */
+@SuppressWarnings("rawtypes")
 public class ValidateController implements Initializable 
 {
    @FXML Button backButton;
@@ -29,6 +34,7 @@ public class ValidateController implements Initializable
    @FXML Label showHost;
    @FXML Label showUname;
    @FXML Label showData;
+   @FXML ListView checklistview;
    
    
 	/* (non-Javadoc)
@@ -39,9 +45,10 @@ public class ValidateController implements Initializable
 	{
 		LoadController rootControl = Navigator.getFxLoader().getController();
 		
-		if(rootControl.getMetaData() != null) 
+		if(rootControl.fetchMetaData() != null) 
 		{
-			renderMetaData(rootControl.getMetaData());
+			renderMetaData(rootControl.fetchMetaData());
+			renderCheckList(rootControl.fetchMetaData().getDbType());
 		}
 		
 	}
@@ -63,4 +70,23 @@ public class ValidateController implements Initializable
 		
 	}
 	
+	@SuppressWarnings("unchecked")
+	private void renderCheckList (String dbType) 
+	{
+		ObservableList checkList = FXCollections.observableArrayList();
+		if(dbType.equals(Constants.DB2_UDB)) 
+		{
+			checkList.addAll(Constants.DB2_LIST);
+		}
+		else if(dbType.equals(Constants.ORACLE)) 
+		{
+			checkList.addAll(Constants.DB2_LIST);
+		}  
+		else if (dbType.equals(Constants.MSSQL)) 
+		{
+			checkList.addAll(Constants.DB2_LIST);
+		} 
+		checklistview.setItems(checkList);
+		checklistview.setCellFactory(ChoiceBoxListCell.forListView(checkList));
+	}
 }

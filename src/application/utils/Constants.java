@@ -3,6 +3,7 @@
  */
 package application.utils;
 
+
 /**
  * @author ramas6
  *
@@ -41,8 +42,15 @@ public final class Constants
 	public static final String ORACLE_URL = "jdbc:oracle:thin:@//localhost:1521/dbName";
 	public static final String MSSQL_URL = "jdbc:sqlserver://localhost:1433;database=dbName;SelectMethod=cursor;SendStringParametersAsUnicode=false";
 	
-	
-	
-
+	/*All check lists*/
+	public static final Object[] DB2_LIST = {"Java MUST be enabled","User has SYSADM privilege","user has 32k tablespace",
+		"User has CREATE_EXTERNAL_ROUTINE privilege","Log file size atleast 655360 bytes"};
+	public static final Object[] ORACLE_LIST = {"Java MUST be enabled","User MUST have Resource and Connect",
+		"User MUST have Create View and Create Procedure","User has unlimited tablespace"};
+	public static final Object[] MSSQL_LIST = {"CLR enabled in database","User MUST have Public and DB_OWNER",
+		"User MUST have create function,ALTER and EXECUTE privileges",};
+	 
+	 
+	 
 
 }

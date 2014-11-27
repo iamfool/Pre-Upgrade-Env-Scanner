@@ -28,12 +28,12 @@ public class LoadController {
 		loader.getChildren().setAll(node);
     }
 	
-	public void setMetaData(DBMetaData dbData) 
+	public void holdMetaData(DBMetaData dbData) 
 	{
 		this.dbData = dbData;
 	}
     
-	public DBMetaData getMetaData() 
+	public DBMetaData fetchMetaData() 
 	{
 		return this.dbData;
 	}
