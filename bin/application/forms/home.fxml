@@ -9,51 +9,56 @@
 
 <TitledPane animated="false" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.HomeController">
   <content>
-    <AnchorPane fx:id="homeAnchor" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+      <StackPane fx:id="masterStack">
          <children>
-            <GridPane layoutX="14.0" layoutY="14.0" prefHeight="354.0" prefWidth="570.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
+          <AnchorPane fx:id="homeAnchor" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
-                  <Label alignment="BASELINE_RIGHT" text="Beta_v1.1" GridPane.rowIndex="9">
-                     <opaqueInsets>
-                        <Insets top="100.0" />
-                     </opaqueInsets>
-                  </Label>
-                  <Label alignment="BASELINE_RIGHT" contentDisplay="TOP" text="Choose database vendor type" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-                     <opaqueInsets>
-                        <Insets left="50.0" />
-                     </opaqueInsets>
-                  </Label>
-                  <ChoiceBox fx:id="dbChoice" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                  <Button fx:id="submitButton" mnemonicParsing="false" onAction="#handleSubmitButtonAction" text="Submit" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
-                  <Label text="JDBC URL" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                  <Label text="User name" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                  <Label text="Password" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-                  <TextField fx:id="url" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField fx:id="uname" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <TextField fx:id="pwd" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Label fx:id="errorcode" prefHeight="44.0" prefWidth="285.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                  <Label text="Rules Schema" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
-                  <Label text="Data Schema" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
-                  <TextField fx:id="ruleSchema" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                  <TextField fx:id="dataSchema" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                  <GridPane layoutX="14.0" layoutY="14.0" prefHeight="354.0" prefWidth="570.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label alignment="BASELINE_RIGHT" text="Beta_v1.1" GridPane.rowIndex="9">
+                           <opaqueInsets>
+                              <Insets top="100.0" />
+                           </opaqueInsets>
+                        </Label>
+                        <Label alignment="BASELINE_RIGHT" contentDisplay="TOP" text="Choose database vendor type" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                           <opaqueInsets>
+                              <Insets left="50.0" />
+                           </opaqueInsets>
+                        </Label>
+                        <ChoiceBox fx:id="dbChoice" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                        <Button fx:id="submitButton" mnemonicParsing="false" onAction="#handleSubmitButtonAction" text="Submit" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
+                        <Label text="JDBC URL" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                        <Label text="User name" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                        <Label text="Password" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+                        <TextField fx:id="url" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="uname" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="pwd" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <Label fx:id="errorcode" prefHeight="44.0" prefWidth="285.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                        <Label text="Rules Schema" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+                        <Label text="Data Schema" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+                        <TextField fx:id="ruleSchema" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                        <TextField fx:id="dataSchema" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                     </children>
+                  </GridPane>
                </children>
-            </GridPane>
-         </children></AnchorPane>
+            </AnchorPane>
+         </children>
+      </StackPane>
   </content>
 </TitledPane>

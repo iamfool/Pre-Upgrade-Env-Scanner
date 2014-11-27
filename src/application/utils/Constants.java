@@ -3,6 +3,12 @@
  */
 package application.utils;
 
+/**
+ * @author ramas6
+ *
+ *Holds all constants 
+ */
+
 public final class Constants 
 {
 	/*All string constants*/
@@ -25,13 +31,16 @@ public final class Constants
 	
 	
 	/*All fxml references*/
-	public static final String HOME_FXML= "forms/home.fxml";
+	public static final String HOME_FXML= "/application/forms/home.fxml";
+	public static final String VALIDATE_FXML= "/application/forms/validate.fxml";
+	public static final String LOADER_FXML = "/application/forms/loader.fxml";
 	
 	
 	/*All URLs*/
 	public static final String DB2_UDB_URL = "jdbc:db2://localhost:50000/dbName:fullyMaterializeLobData=true;fullyMaterializeInputStreams=true;progressiveStreaming=2;useJDBC4ColumnNameAndLabelSemantics=2;";
 	public static final String ORACLE_URL = "jdbc:oracle:thin:@//localhost:1521/dbName";
 	public static final String MSSQL_URL = "jdbc:sqlserver://localhost:1433;database=dbName;SelectMethod=cursor;SendStringParametersAsUnicode=false";
+	
 	
 	
 

@@ -8,12 +8,10 @@ package application.controller;
  *
  */
 
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.sql.Connection; 
-import java.sql.DriverManager; 
-
-
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -24,20 +22,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import application.DBMetaData;
 import application.utils.Constants;
+import application.utils.DBUtils;
 import application.utils.Utilities;
 
-//load drivers
-import com.ibm.db2.jcc.DB2Driver;
-import oracle.jdbc.OracleDriver;
-import com.microsoft.sqlserver.jdbc.SQLServerDriver;
 
 
 
-
-@SuppressWarnings("unused")
 public class HomeController implements Initializable 
 {
 	// list of fxids
@@ -46,7 +41,7 @@ public class HomeController implements Initializable
 	@FXML private Button submitButton; 
 	@FXML private AnchorPane homeAnchor;
 	@FXML private TextField uname;
-	@FXML private TextField pwd;
+	@FXML private PasswordField pwd;
 	@FXML private TextField url;
 	@FXML private TextField ruleSchema;
 	@FXML private TextField dataSchema;
@@ -84,34 +79,40 @@ public class HomeController implements Initializable
 						break;
 					default:
 						url.setText(Constants.EMPTY);
-					
 				}
-		
 			}
 		});
 	}
 	
 	
 	 
-	@FXML protected void handleSubmitButtonAction(ActionEvent event) 
+	@FXML protected void handleSubmitButtonAction(ActionEvent event) throws SQLException, IOException  
 	{
-        
-		if (!variablesEmpty())
-		{
-			try 
+	   if (!variablesEmpty())
+	   {
+			DBMetaData connect = DBUtils.getConnection(url.getText(),uname.getText(),pwd.getText(),ruleSchema.getText(),dataSchema.getText());
+			if (connect.isConnSuccess())
 			{
-				Connection  connection = DriverManager.getConnection(url.getText(),uname.getText(),pwd.getText()); 
 				errorcode.setText(Constants.CONNECTION_SUCCESS);
-			} 
-			catch (Exception e) 
+				connect.getConnection().close();
+			}
+			else
 			{
-				
-				e.printStackTrace();
-				errorcode.setText("Connection Error" + e.getMessage());
-			} 
-	        	
-		}
-		
+				errorcode.setText(Constants.CONNECTION_ERROR + connect.getErrorMessage());
+				return;
+			}
+	       
+			
+			//set details in root controller so it can be accessed everywhere
+			LoadController rootControl = Navigator.getFxLoader().getController();
+			rootControl.setMetaData(connect);
+			rootControl.getMetaData();
+			
+			 //load validate pane as connection succeeded 
+			Navigator.loadScreen(Constants.VALIDATE_FXML);
+	          
+	           
+	}	
     }
 
 	 
@@ -125,6 +126,5 @@ public class HomeController implements Initializable
 					return true;
 				}
 				return false;
-	}
-	 
+	} 
 }

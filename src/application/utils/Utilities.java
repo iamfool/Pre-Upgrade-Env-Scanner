@@ -5,6 +5,8 @@ package application.utils;
 
 /**
  * @author ramas6
+ * 
+ * Holds generic functions
  *
  */
 public final class Utilities 
