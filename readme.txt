@@ -1,4 +1,4 @@
 Pre-Upgrade-Env-Scanner
 =======================
 
-Scan environment before PRPC upgrade (WIP)
+Utility to scan the target environment for basic checks prior to Pega7 upgrade
