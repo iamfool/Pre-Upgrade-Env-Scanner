@@ -3,15 +3,19 @@
  */
 package application;
 
+import java.util.ArrayList;
+
+
+
+import application.utils.Constants;
+
 /**
  * @author ramas6
  *
  */
 public class OracleDBCheck implements DBCheck 
 {
-
-	private static final Object[] ORACLE_LIST = {"Java MUST be enabled","User MUST have Resource and Connect",
-		"User MUST have Create View and Create Procedure","User has unlimited tablespace"};
+	private ArrayList<String> checks = new ArrayList<String>();
 	
 	/* (non-Javadoc)
 	 * @see application.DBCheck#getCheckList()
@@ -19,7 +23,12 @@ public class OracleDBCheck implements DBCheck
 	@Override
 	public Object[] getCheckList() 
 	{
-		return ORACLE_LIST;
+		checks.clear();
+		for(Oraclechecks check : Oraclechecks.values()) 
+		{
+			checks.add(check.getValue());
+		}
+		return checks.toArray();
 	}
 
 	/* (non-Javadoc)
@@ -40,6 +49,29 @@ public class OracleDBCheck implements DBCheck
 	{
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	private enum Oraclechecks 
+	{
+		JAVA_ENABLED(Constants.ORACLE_JAVA_ENABLED),
+		RESOURCE_CONNECT_PRIVILEGE(Constants.ORACLE_RESOURCE_CONNECT_PRIVILEGE),
+		CREATE_VIEW_PROCEDURE_PRIVILEGE(Constants.ORACLE_CREATE_VIEW_PROCEDURE_PRIVILEGE),
+		TABLESPACE(Constants.ORACLE_TABLESPACE);
+	
+		
+		private String value;
+
+		Oraclechecks(String value)
+		{
+			this.value= value;
+		}
+		
+		
+		public String getValue() 
+		{
+			return this.value;
+		}
+		
 	}
 
 }

@@ -3,21 +3,29 @@
  */
 package application;
 
+import java.util.ArrayList;
+
+import application.utils.Constants;
+
 /**
  * @author ramas6
  *
  */
 public class DB2UDBDBCheck implements DBCheck {
 
-	private static final Object[] DB2_LIST = {"Java MUST be enabled","User has SYSADM privilege","user has 32k tablespace",
-		"User has CREATE_EXTERNAL_ROUTINE privilege","Log file size atleast 655360 bytes"};
+	private ArrayList<String> checks = new ArrayList<String>();
 	/* (non-Javadoc)
 	 * @see application.DBCheck#getCheckList()
 	 */
 	@Override
 	public Object[] getCheckList() 
 	{
-		return DB2_LIST;
+		checks.clear();
+		for(DB2checks check : DB2checks.values()) 
+		{
+			checks.add(check.getValue());
+		}
+		return checks.toArray();
 	}
 
 	/* (non-Javadoc)
@@ -38,6 +46,29 @@ public class DB2UDBDBCheck implements DBCheck {
 	{
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	private enum DB2checks 
+	{
+		JAVA_ENABLED(Constants.DB2_JAVA_ENABLED),
+		SYSADM_PRIVILEGE(Constants.DB2_SYSADM_PRIVILEGE),
+		TABLESPACE(Constants.DB2_TABLESPACE),
+		CREATE_EXTERNAL_ROUTINE_PRIVILEGE(Constants.DB2_CREATE_EXTERNAL_ROUTINE_PRIVILEGE),
+		LOGFILESIZE(Constants.DB2_LOGFILESIZE);
+	
+		
+		private String value;
+
+		DB2checks(String value)
+		{
+			this.value= value;
+		}
+		
+		public String getValue() 
+		{
+			return this.value;
+		}
+		
 	}
 
 }

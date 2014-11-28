@@ -3,23 +3,32 @@
  */
 package application;
 
+import java.util.ArrayList;
+
+
+
+import application.utils.Constants;
+
 /**
  * @author ramas6
  *
  */
 public class MSSQLDBCheck implements DBCheck 
 {
-
-	private static final Object[] MSSQL_LIST = {"CLR enabled in database","User MUST have Public and DB_OWNER",
-		"User MUST have create function,ALTER and EXECUTE privileges",};
-	 
+	private ArrayList<String> checks = new ArrayList<String>();
+	
 	/* (non-Javadoc)
 	 * @see application.DBCheck#getCheckList()
 	 */
 	@Override
 	public Object[] getCheckList() 
 	{
-		return MSSQL_LIST;
+		checks.clear();
+		for(MSSQLchecks check : MSSQLchecks.values()) 
+		{
+			checks.add(check.getValue());
+		}
+		return checks.toArray();
 	}
 
 	/* (non-Javadoc)
@@ -40,6 +49,29 @@ public class MSSQLDBCheck implements DBCheck
 	{
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	private enum MSSQLchecks 
+	{
+		CLR_ENABLED(Constants.MSSQL_CLR_ENABLED),
+		PUBLIC_DBOWNER_PRIVILEGE(Constants.MSSQL_PUBLIC_DBOWNER_PRIVILEGE),
+		CREATE_FUNCTION_PRIVILEGE(Constants.MSSQL_CREATE_FUNCTION_PRIVILEGE),
+		ALTER_EXECUTE_PRIVILEGE(Constants.MSSQL_ALTER_EXECUTE_PRIVILEGE);
+	
+		
+		private String value;
+
+		MSSQLchecks(String value)
+		{
+			this.value= value;
+		}
+		
+
+		public String getValue() 
+		{
+			return this.value;
+		}
+		
 	}
 
 }

@@ -42,4 +42,22 @@ public final class Constants
 	public static final String ORACLE_URL = "jdbc:oracle:thin:@//localhost:1521/dbName";
 	public static final String MSSQL_URL = "jdbc:sqlserver://localhost:1433;database=dbName;SelectMethod=cursor;SendStringParametersAsUnicode=false";
 	
+	
+	/*All checklist related constants*/
+	public static final String DB2_JAVA_ENABLED = "Java MUST be enabled";
+	public static final String DB2_SYSADM_PRIVILEGE ="User has SYSADM privilege";
+	public static final String DB2_TABLESPACE ="user has 32k tablespace";
+	public static final String DB2_CREATE_EXTERNAL_ROUTINE_PRIVILEGE ="User has CREATE_EXTERNAL_ROUTINE privilege";
+	public static final String DB2_LOGFILESIZE ="Log file size atleast 655360 bytes";
+	
+	public static final String MSSQL_CLR_ENABLED ="CLR enabled in database";
+	public static final String MSSQL_PUBLIC_DBOWNER_PRIVILEGE ="User MUST have Public and DB_OWNER";
+	public static final String MSSQL_CREATE_FUNCTION_PRIVILEGE ="User MUST have create function";
+	public static final String MSSQL_ALTER_EXECUTE_PRIVILEGE ="ALTER and EXECUTE privileges";
+	
+	public static final String ORACLE_JAVA_ENABLED ="Java MUST be enabled";
+	public static final String ORACLE_RESOURCE_CONNECT_PRIVILEGE ="User MUST have Resource and Connect";
+	public static final String ORACLE_CREATE_VIEW_PROCEDURE_PRIVILEGE ="User MUST have Create View and Create Procedure";
+	public static final String ORACLE_TABLESPACE ="User has unlimited tablespace";
+	
 }
