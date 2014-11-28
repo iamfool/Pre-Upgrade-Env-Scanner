@@ -29,14 +29,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) 
 	{
 		try 
-		{
-			/*Parent root = FXMLLoader.load(getClass().getResource(Constants.HOME_FXML));
-			Scene scene = new Scene(root);
-			scene.getStylesheets().add(getClass().getResource(Constants.APP_CSS).toExternalForm());
-			primaryStage.setTitle(Constants.APP_TITLE);
-			primaryStage.setScene(scene);
-			primaryStage.show();*/
-			
+		{	
 			primaryStage.setTitle(Constants.APP_TITLE);
 			primaryStage.setScene(createScene(loadMainPane()));
 			primaryStage.show();

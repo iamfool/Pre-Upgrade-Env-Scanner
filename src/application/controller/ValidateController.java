@@ -16,7 +16,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.cell.ChoiceBoxListCell;
+import application.DBCheck;
+import application.DBCheckFactory;
 import application.DBMetaData;
 import application.utils.Constants;
 
@@ -35,6 +36,10 @@ public class ValidateController implements Initializable
    @FXML Label showUname;
    @FXML Label showData;
    @FXML ListView checklistview;
+   @FXML Button checkButton;
+   private DBCheck check;
+   private ObservableList checkList = FXCollections.observableArrayList();
+   
    
    
 	/* (non-Javadoc)
@@ -73,20 +78,39 @@ public class ValidateController implements Initializable
 	@SuppressWarnings("unchecked")
 	private void renderCheckList (String dbType) 
 	{
-		ObservableList checkList = FXCollections.observableArrayList();
-		if(dbType.equals(Constants.DB2_UDB)) 
-		{
-			checkList.addAll(Constants.DB2_LIST);
-		}
-		else if(dbType.equals(Constants.ORACLE)) 
-		{
-			checkList.addAll(Constants.DB2_LIST);
-		}  
-		else if (dbType.equals(Constants.MSSQL)) 
-		{
-			checkList.addAll(Constants.DB2_LIST);
-		} 
+		check = DBCheckFactory.getVendorCheck(dbType);
+		checkList.addAll(check.getCheckList());
 		checklistview.setItems(checkList);
-		checklistview.setCellFactory(ChoiceBoxListCell.forListView(checkList));
+	}
+	
+	@SuppressWarnings("unchecked")
+	@FXML protected void handleCheckButtonAction(ActionEvent event) throws SQLException, IOException, InterruptedException  
+	{
+		if(check != null)
+		{
+			checkButton.setText("checking...");
+			checkButton.setDisable(true);
+			
+			//remove old list if first check
+			if(checkList.size()>0)
+				{
+				 	checkList.removeAll(check.getCheckList());
+					checklistview.setItems(checkList);
+				}
+			ObservableList checkedList = FXCollections.observableArrayList();
+			
+			//execute all checks and set result to listview
+			checkedList.addAll(check.executeChecks());
+			checklistview.setItems(checkedList);
+			
+			checkButton.setDisable(false);
+			checkButton.setText("Re-Check");
+			
+			
+		}
+		else
+		{
+			return;
+		}
 	}
 }
