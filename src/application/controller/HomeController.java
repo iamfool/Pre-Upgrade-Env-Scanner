@@ -92,15 +92,12 @@ public class HomeController implements Initializable
 	   if (!variablesEmpty())
 	   {
 			DBMetaData connect = DBUtils.getConnection(dbChoice.getValue().toString(),url.getText(),uname.getText(),pwd.getText(),ruleSchema.getText(),dataSchema.getText());
-			if (connect.isConnSuccess())
-			{
-				connect.getConnection().close();
-			}
-			else
+			if (!connect.isConnSuccess())
 			{
 				errorcode.setText(Constants.CONNECTION_ERROR + connect.getErrorMessage());
 				return;
 			}
+			
 			
 			//set details in root controller so it can be accessed everywhere
 			LoadController rootControl = Navigator.getFxLoader().getController();
@@ -115,8 +112,7 @@ public class HomeController implements Initializable
 	private boolean variablesEmpty()
 	{
 		//check for uname,pwd,url filled
-				if(Utilities.isEmpty(url.getText()) || Utilities.isEmpty(uname.getText()) || Utilities.isEmpty(pwd.getText()) 
-						|| Utilities.isEmpty(ruleSchema.getText()) || Utilities.isEmpty(dataSchema.getText()))
+				if(Utilities.isEmpty(url.getText()) || Utilities.isEmpty(uname.getText()) || Utilities.isEmpty(pwd.getText()))
 				{
 					errorcode.setText(Constants.SUBMIT_ERROR);
 					return true;

@@ -23,6 +23,8 @@ public final class Constants
 	public static final String SUBMIT_ERROR = "Connection failed - One or more values are empty";
 	public static final String CONNECTION_ERROR = "Connection Error";
 	public static final String CONNECTION_SUCCESS = "Connecion status : Success";
+	public static final String TEST_SUCCESS = "Success: ";
+	public static final String TEST_FAILURE = "Failed: ";
 	
 
 	

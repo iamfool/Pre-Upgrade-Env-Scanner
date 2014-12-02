@@ -5,8 +5,6 @@ package application;
 
 import java.util.ArrayList;
 
-
-
 import application.utils.Constants;
 
 /**
@@ -16,6 +14,15 @@ import application.utils.Constants;
 public class MSSQLDBCheck implements DBCheck 
 {
 	private ArrayList<String> checks = new ArrayList<String>();
+	private ArrayList<String> executedChecks = new ArrayList<String>(); 
+	
+	MSSQLDBCheck()
+	{
+		for(MSSQLchecks check : MSSQLchecks.values()) 
+		{
+			checks.add(check.getValue());
+		}
+	}
 	
 	/* (non-Javadoc)
 	 * @see application.DBCheck#getCheckList()
@@ -23,11 +30,6 @@ public class MSSQLDBCheck implements DBCheck
 	@Override
 	public Object[] getCheckList() 
 	{
-		checks.clear();
-		for(MSSQLchecks check : MSSQLchecks.values()) 
-		{
-			checks.add(check.getValue());
-		}
 		return checks.toArray();
 	}
 
@@ -35,9 +37,13 @@ public class MSSQLDBCheck implements DBCheck
 	 * @see application.DBCheck#executeChecks()
 	 */
 	@Override
-	public Object[] executeChecks() 
+	public Object[] executeChecks(DBMetaData metaData) 
 	{
-		// TODO Auto-generated method stub
+		executedChecks.clear();
+		for(MSSQLchecks check : MSSQLchecks.values()) 
+		{
+			check.test(executedChecks, metaData);
+		}
 		return null;
 	}
 
@@ -70,6 +76,24 @@ public class MSSQLDBCheck implements DBCheck
 		public String getValue() 
 		{
 			return this.value;
+		}
+		
+		public void test(ArrayList<String> executedChecks,DBMetaData metaData)
+		{
+			switch(this)
+			{
+				case CLR_ENABLED:
+					break;
+				case PUBLIC_DBOWNER_PRIVILEGE:
+					break;
+				case CREATE_FUNCTION_PRIVILEGE:
+					break;
+				case ALTER_EXECUTE_PRIVILEGE:
+					break;
+				
+			}
+			
+			
 		}
 		
 	}

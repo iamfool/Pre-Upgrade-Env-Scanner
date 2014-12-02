@@ -3,6 +3,8 @@
  */
 package application;
 
+import java.sql.SQLException;
+
 import application.utils.Constants;
 
 /**
@@ -22,8 +24,9 @@ public Object[] getCheckList();
 /**
  * runs the checks and returns result of individual checks
  * @return
+ * @throws SQLException 
  */
-public Object[] executeChecks();
+public Object[] executeChecks(DBMetaData metadata) throws SQLException;
 
 /**
  * if ALL checks are successful, returns true else false

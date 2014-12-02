@@ -39,6 +39,7 @@ public class ValidateController implements Initializable
    @FXML Button checkButton;
    private DBCheck check;
    private ObservableList checkList = FXCollections.observableArrayList();
+   private LoadController rootControl;
    
    
    
@@ -48,7 +49,7 @@ public class ValidateController implements Initializable
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
-		LoadController rootControl = Navigator.getFxLoader().getController();
+		rootControl = Navigator.getFxLoader().getController();
 		
 		if(rootControl.fetchMetaData() != null) 
 		{
@@ -61,7 +62,8 @@ public class ValidateController implements Initializable
 	
 	@FXML protected void handleBackButtonAction(ActionEvent event) throws SQLException, IOException  
 	{
-      Navigator.loadScreen(Constants.HOME_FXML);
+		rootControl.fetchMetaData().getConnection().close();
+		Navigator.loadScreen(Constants.HOME_FXML);
 	}
 
 	private void renderMetaData(DBMetaData dbMetaData) 
@@ -84,7 +86,7 @@ public class ValidateController implements Initializable
 	}
 	
 	@SuppressWarnings("unchecked")
-	@FXML protected void handleCheckButtonAction(ActionEvent event) throws SQLException, IOException, InterruptedException  
+	@FXML protected void handleCheckButtonAction(ActionEvent event) throws SQLException   
 	{
 		if(check != null)
 		{
@@ -100,7 +102,7 @@ public class ValidateController implements Initializable
 			ObservableList checkedList = FXCollections.observableArrayList();
 			
 			//execute all checks and set result to listview
-			checkedList.addAll(check.executeChecks());
+			checkedList.addAll(check.executeChecks(rootControl.fetchMetaData()));
 			checklistview.setItems(checkedList);
 			
 			checkButton.setDisable(false);

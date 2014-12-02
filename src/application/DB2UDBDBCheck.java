@@ -14,17 +14,21 @@ import application.utils.Constants;
 public class DB2UDBDBCheck implements DBCheck {
 
 	private ArrayList<String> checks = new ArrayList<String>();
+	private ArrayList<String> executedChecks = new ArrayList<String>(); 
+	
+	DB2UDBDBCheck()
+	{
+		for(DB2checks check : DB2checks.values()) 
+		{
+			checks.add(check.getValue());
+		}
+	}
 	/* (non-Javadoc)
 	 * @see application.DBCheck#getCheckList()
 	 */
 	@Override
 	public Object[] getCheckList() 
 	{
-		checks.clear();
-		for(DB2checks check : DB2checks.values()) 
-		{
-			checks.add(check.getValue());
-		}
 		return checks.toArray();
 	}
 
@@ -32,9 +36,14 @@ public class DB2UDBDBCheck implements DBCheck {
 	 * @see application.DBCheck#executeChecks()
 	 */
 	@Override
-	public Object[] executeChecks() 
+	public Object[] executeChecks(DBMetaData metaData) 
 	{
-		// TODO Auto-generated method stub
+		executedChecks.clear();
+		for(DB2checks check : DB2checks.values())
+		{
+			check.test(executedChecks, metaData);
+		}
+		
 		return null;
 	}
 
@@ -67,6 +76,25 @@ public class DB2UDBDBCheck implements DBCheck {
 		public String getValue() 
 		{
 			return this.value;
+		}
+		
+		public void test(ArrayList<String> executedChecks,DBMetaData metaData)
+		{
+			switch(this)
+			{
+				case JAVA_ENABLED:
+					break;
+				case SYSADM_PRIVILEGE:
+					break;
+				case CREATE_EXTERNAL_ROUTINE_PRIVILEGE:
+					break;
+				case TABLESPACE:
+					break;
+				case LOGFILESIZE:
+					break;
+			}
+			
+			
 		}
 		
 	}
