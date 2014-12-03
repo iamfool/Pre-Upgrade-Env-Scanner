@@ -48,9 +48,10 @@ public final class Constants
 	/*All checklist related constants*/
 	public static final String DB2_JAVA_ENABLED = "Java MUST be enabled";
 	public static final String DB2_SYSADM_PRIVILEGE ="User has SYSADM privilege";
-	public static final String DB2_TABLESPACE ="user has 32k tablespace";
+	public static final String DB2_DATAACCESS_PRIVILEGE ="User has DATAACCESS privilege";
+	public static final String DB2_TABLESPACE ="User has been granted atleast one 32K tablespace";
 	public static final String DB2_CREATE_EXTERNAL_ROUTINE_PRIVILEGE ="User has CREATE_EXTERNAL_ROUTINE privilege";
-	public static final String DB2_LOGFILESIZE ="Log file size atleast 655360 bytes";
+	public static final String DB2_LOGFILESIZE ="Log file size is set to atleast 655,360 KB";
 	
 	public static final String MSSQL_CLR_ENABLED ="CLR enabled in database";
 	public static final String MSSQL_PUBLIC_DBOWNER_PRIVILEGE ="User MUST have Public and DB_OWNER";

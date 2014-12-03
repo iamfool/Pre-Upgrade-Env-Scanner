@@ -59,6 +59,7 @@ public class MSSQLDBCheck implements DBCheck
 	
 	private enum MSSQLchecks 
 	{
+		//If new checks are added, new cases MUST be added to handle them, else they will not be computed
 		CLR_ENABLED(Constants.MSSQL_CLR_ENABLED),
 		PUBLIC_DBOWNER_PRIVILEGE(Constants.MSSQL_PUBLIC_DBOWNER_PRIVILEGE),
 		CREATE_FUNCTION_PRIVILEGE(Constants.MSSQL_CREATE_FUNCTION_PRIVILEGE),

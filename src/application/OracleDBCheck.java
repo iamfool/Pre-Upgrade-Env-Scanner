@@ -63,6 +63,7 @@ public class OracleDBCheck implements DBCheck
 	
 	private enum Oraclechecks 
 	{
+		//If new checks are added, new cases MUST be added to handle them, else they will not be computed
 		JAVA_ENABLED(Constants.ORACLE_JAVA_ENABLED),
 		RESOURCE_CONNECT_PRIVILEGE(Constants.ORACLE_RESOURCE_CONNECT_PRIVILEGE),
 		CREATE_VIEW_PROCEDURE_PRIVILEGE(Constants.ORACLE_CREATE_VIEW_PROCEDURE_PRIVILEGE),
@@ -89,78 +90,56 @@ public class OracleDBCheck implements DBCheck
 		{
 			Statement stmt;
 			ResultSet resultSet;
+			boolean testPassed = false;
+			boolean connectPassed = false;
+			boolean resourcePassed = false;
 			switch(this)
 			{
 				case JAVA_ENABLED:
 					stmt = metaData.getConnection().createStatement();
 					resultSet = stmt.executeQuery(javaEnabledQuery);
-					boolean testPassed = false;
 					while(resultSet.next())
 					{
 						if(resultSet.getString("BANNER").startsWith("JServer")) testPassed = true;
 					}
-					if(testPassed)
-					{
-						executedChecks.add(Constants.TEST_SUCCESS+this.value);
-					}
-					else 
-					{
-						executedChecks.add(Constants.TEST_FAILURE+this.value);
-					}
+					
 					break;
 				case RESOURCE_CONNECT_PRIVILEGE:
 					stmt = metaData.getConnection().createStatement();
 					resultSet = stmt.executeQuery(resourceConnectQuery);
-					boolean connectPassed = false;
-					boolean resourcePassed = false;
 					while(resultSet.next())
 					{
 						if(resultSet.getString("GRANTED_ROLE").equals("CONNECT")) connectPassed = true;
 						if(resultSet.getString("GRANTED_ROLE").equals("RESOURCE")) resourcePassed = true;
 					}
-					if(connectPassed && resourcePassed)
-					{
-						executedChecks.add(Constants.TEST_SUCCESS+this.value);
-					}
-					else 
-					{
-						executedChecks.add(Constants.TEST_FAILURE+this.value);
-					}
+					
 					break;
 				case CREATE_VIEW_PROCEDURE_PRIVILEGE:
 					stmt = metaData.getConnection().createStatement();
 					resultSet = stmt.executeQuery(createViewQuery);
-					boolean createPassed = false;
 					while(resultSet.next())
 					{
-						if(resultSet.getString("PRIVILEGE").equals("CREATE VIEW")) createPassed = true;
+						if(resultSet.getString("PRIVILEGE").equals("CREATE VIEW")) testPassed = true;
 					}
-					if(createPassed)
-					{
-						executedChecks.add(Constants.TEST_SUCCESS+this.value);
-					}
-					else 
-					{
-						executedChecks.add(Constants.TEST_FAILURE+this.value);
-					}
+					
 					break;
 				case TABLESPACE:
 					stmt = metaData.getConnection().createStatement();
 					resultSet = stmt.executeQuery(resourceConnectQuery);
-					boolean tableSpacePassed = false;
 					while(resultSet.next())
 					{
-						if(resultSet.getString("GRANTED_ROLE").equals("RESOURCE")) tableSpacePassed = true;
+						if(resultSet.getString("GRANTED_ROLE").equals("RESOURCE")) testPassed = true;
 					}
-					if(tableSpacePassed)
-					{
-						executedChecks.add(Constants.TEST_SUCCESS+this.value);
-					}
-					else 
-					{
-						executedChecks.add(Constants.TEST_FAILURE+this.value);
-					}
+					
 					break;
+			}
+			if(testPassed || (connectPassed && resourcePassed))
+			{
+				executedChecks.add(Constants.TEST_SUCCESS+this.value);
+			}
+			else 
+			{
+				executedChecks.add(Constants.TEST_FAILURE+this.value);
 			}
 			
 			
