@@ -93,6 +93,14 @@ public class OracleDBCheck implements DBCheck
 			boolean testPassed = false;
 			boolean connectPassed = false;
 			boolean resourcePassed = false;
+			String grant = "GRANTED_ROLE";
+			String connect = "CONNECT";
+			String resource = "RESOURCE";
+			String privilege = "PRIVILEGE";
+			String createview = "CREATE VIEW";
+			String banner = "BANNER";
+			String jserver = "JServer";
+			
 			switch(this)
 			{
 				case JAVA_ENABLED:
@@ -100,7 +108,7 @@ public class OracleDBCheck implements DBCheck
 					resultSet = stmt.executeQuery(javaEnabledQuery);
 					while(resultSet.next())
 					{
-						if(resultSet.getString("BANNER").startsWith("JServer")) testPassed = true;
+						if(resultSet.getString(banner).startsWith(jserver)) testPassed = true;
 					}
 					
 					break;
@@ -109,8 +117,8 @@ public class OracleDBCheck implements DBCheck
 					resultSet = stmt.executeQuery(resourceConnectQuery);
 					while(resultSet.next())
 					{
-						if(resultSet.getString("GRANTED_ROLE").equals("CONNECT")) connectPassed = true;
-						if(resultSet.getString("GRANTED_ROLE").equals("RESOURCE")) resourcePassed = true;
+						if(resultSet.getString(grant).equals(connect)) connectPassed = true;
+						if(resultSet.getString(grant).equals(resource)) resourcePassed = true;
 					}
 					
 					break;
@@ -119,7 +127,7 @@ public class OracleDBCheck implements DBCheck
 					resultSet = stmt.executeQuery(createViewQuery);
 					while(resultSet.next())
 					{
-						if(resultSet.getString("PRIVILEGE").equals("CREATE VIEW")) testPassed = true;
+						if(resultSet.getString(privilege).equals(createview)) testPassed = true;
 					}
 					
 					break;
@@ -128,7 +136,7 @@ public class OracleDBCheck implements DBCheck
 					resultSet = stmt.executeQuery(resourceConnectQuery);
 					while(resultSet.next())
 					{
-						if(resultSet.getString("GRANTED_ROLE").equals("RESOURCE")) testPassed = true;
+						if(resultSet.getString(grant).equals(resource)) testPassed = true;
 					}
 					
 					break;

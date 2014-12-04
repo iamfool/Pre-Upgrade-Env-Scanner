@@ -8,9 +8,7 @@ package application.controller;
  *
  */
 
-import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import javafx.beans.value.ChangeListener;
@@ -23,6 +21,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import application.DBCheck;
@@ -47,6 +46,7 @@ public class HomeController implements Initializable
 	@FXML private TextField ruleSchema;
 	@FXML private TextField dataSchema;
 	@FXML private Label errorcode;
+	@FXML private TextArea errortext;
 	
 	 
 
@@ -58,6 +58,7 @@ public class HomeController implements Initializable
 		dbChoice.setItems(FXCollections.observableArrayList(DBCheck.vendors) );
 		dbChoice.setValue(Constants.DB2_UDB);
 		url.setText(Constants.DB2_UDB_URL);
+		errortext.setVisible(false);
 		
 		// add listener to set url
 		dbChoice.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() 
@@ -87,14 +88,15 @@ public class HomeController implements Initializable
 	
 	
 	 
-	@FXML protected void handleSubmitButtonAction(ActionEvent event) throws SQLException, IOException  
+	@FXML protected void handleSubmitButtonAction(ActionEvent event)   
 	{
 	   if (!variablesEmpty())
 	   {
 			DBMetaData connect = DBUtils.getConnection(dbChoice.getValue().toString(),url.getText(),uname.getText(),pwd.getText(),ruleSchema.getText(),dataSchema.getText());
 			if (!connect.isConnSuccess())
 			{
-				errorcode.setText(Constants.CONNECTION_ERROR + connect.getErrorMessage());
+				errortext.setText(Constants.CONNECTION_ERROR + connect.getErrorMessage());
+				errortext.setVisible(true);
 				return;
 			}
 			
@@ -115,6 +117,7 @@ public class HomeController implements Initializable
 				if(Utilities.isEmpty(url.getText()) || Utilities.isEmpty(uname.getText()) || Utilities.isEmpty(pwd.getText()))
 				{
 					errorcode.setText(Constants.SUBMIT_ERROR);
+					errortext.setVisible(false);
 					return true;
 				}
 				return false;

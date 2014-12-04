@@ -30,12 +30,12 @@ public final class DBUtils
 			dbConnect.setConnection(connection);
 			dbConnect.setConnSuccess(true);
 			
-			//set other details
+			//set input details
 			dbConnect.setDbType(dbtype);
-			dbConnect.setJDBCUrl(jdbcurl);
 			dbConnect.setRulesName(ruleSchema);
 			dbConnect.setDataName(dataSchema);
 			dbConnect.setUserName(connection.getMetaData().getUserName());
+			
 			
 		} 
 		catch (Exception e) 

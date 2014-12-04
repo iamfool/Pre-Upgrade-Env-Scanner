@@ -12,6 +12,11 @@ import application.utils.Constants;
 public final class DBCheckFactory 
 {
 
+	/**
+	 * returns instance of dbcheck based on dbtype
+	 * @param vendor
+	 * @return
+	 */
 	public static DBCheck getVendorCheck(String vendor)
 	{
 		if(Constants.DB2_UDB.equals(vendor))

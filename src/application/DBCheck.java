@@ -29,7 +29,7 @@ public Object[] getCheckList();
 public Object[] executeChecks(DBMetaData metadata) throws SQLException;
 
 /**
- * if ALL checks are successful, returns true else false
+ * After executing checks, if ALL checks are successful, returns true else false.
  * @return
  */
 public boolean getCheckState();

@@ -68,10 +68,8 @@ public class ValidateController implements Initializable
 
 	private void renderMetaData(DBMetaData dbMetaData) 
 	{
-		showDB.setText(dbMetaData.getDbName());
 		showDBType.setText(dbMetaData.getDbType());
 		showRules.setText(dbMetaData.getRulesName());
-		showHost.setText(dbMetaData.getJDBCUrl());
 		showUname.setText(dbMetaData.getUserName());
 		showData.setText(dbMetaData.getDataName());
 		
