@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.TilePane?>
 
-<TitledPane animated="false" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.HomeController">
+<TitledPane animated="false" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="421.0" prefWidth="600.0" text="Enter environment details" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.HomeController">
   <content>
       <StackPane fx:id="masterStack">
          <children>
@@ -21,8 +21,17 @@
                     <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -33,34 +42,38 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label alignment="BASELINE_RIGHT" text="Beta_v1.1" GridPane.rowIndex="11">
+                        <Label alignment="BASELINE_RIGHT" text="Beta_v1.0.2_7.1.7" GridPane.rowIndex="20">
                            <opaqueInsets>
                               <Insets top="100.0" />
                            </opaqueInsets>
                         </Label>
-                        <Label alignment="BASELINE_RIGHT" contentDisplay="TOP" text="Choose database vendor type" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                        <Label alignment="BASELINE_RIGHT" contentDisplay="TOP" text="Database Type" GridPane.halignment="CENTER" GridPane.rowIndex="5">
                            <opaqueInsets>
                               <Insets left="50.0" />
                            </opaqueInsets>
                         </Label>
-                        <ChoiceBox fx:id="dbChoice" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                        <Label text="JDBC URL*" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                        <Label text="User name*" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                        <TextField fx:id="url" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField fx:id="uname" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                        <PasswordField fx:id="pwd" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                        <Label fx:id="errorcode" prefHeight="44.0" prefWidth="285.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="11" />
-                        <Label text="Rules Schema" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
-                        <Label text="Data Schema" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
-                        <TextField fx:id="ruleSchema" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                        <TextField fx:id="dataSchema" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                        <Label text="Password*" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-                        <Button fx:id="submitButton" mnemonicParsing="false" onAction="#handleSubmitButtonAction" text="Submit" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="8" />
-                        <TextArea fx:id="errortext" editable="false" prefHeight="87.0" prefWidth="273.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="11">
+                        <Label text="Operating System" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                        <Label text="Application Server" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                        <ChoiceBox fx:id="oschoice" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                        <ChoiceBox fx:id="appchoice" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                        <ChoiceBox fx:id="dbChoice" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+                        <Label text="JDBC URL*" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
+                        <Label text="Username*" GridPane.halignment="CENTER" GridPane.rowIndex="9" />
+                        <TextField fx:id="url" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <TextField fx:id="uname" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                        <PasswordField fx:id="pwd" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+                        <Label fx:id="errorcode" prefHeight="44.0" prefWidth="285.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="20" />
+                        <Label text="Rules Schema" GridPane.halignment="CENTER" GridPane.rowIndex="13" />
+                        <Label text="Data Schema" GridPane.halignment="CENTER" GridPane.rowIndex="15" />
+                        <TextField fx:id="ruleSchema" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+                        <TextField fx:id="dataSchema" GridPane.columnIndex="1" GridPane.rowIndex="15" />
+                        <Label text="Password*" GridPane.halignment="CENTER" GridPane.rowIndex="11" />
+                        <Button fx:id="submitButton" mnemonicParsing="false" onAction="#handleSubmitButtonAction" text="Submit" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="17" />
+                        <TextArea fx:id="errortext" editable="false" prefHeight="87.0" prefWidth="273.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="20">
                            <font>
                               <Font name="System Bold" size="9.0" />
                            </font>
-                        </TextArea>
+                        </TextArea>                        
                      </children>
                   </GridPane>
                </children>
@@ -68,4 +81,7 @@
          </children>
       </StackPane>
   </content>
+   <font>
+      <Font name="System Bold Italic" size="14.0" />
+   </font>
 </TitledPane>

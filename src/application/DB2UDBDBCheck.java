@@ -23,7 +23,7 @@ public class DB2UDBDBCheck implements DBCheck {
 	{
 		for(DB2checks check : DB2checks.values()) 
 		{
-			checks.add(check.getValue());
+			checks.add(check.getValue() + " - "+ Constants.DB2_UDB);
 		}
 	}
 	/* (non-Javadoc)
@@ -180,11 +180,11 @@ public class DB2UDBDBCheck implements DBCheck {
 			
 			if(testPassed)
 			{
-				executedChecks.add(Constants.TEST_SUCCESS+this.value);
+				executedChecks.add(Constants.TEST_SUCCESS+this.value+ " - "+ Constants.DB2_UDB);
 			}
 			else 
 			{
-				executedChecks.add(Constants.TEST_FAILURE+this.value);
+				executedChecks.add(Constants.TEST_FAILURE+this.value + " - "+ Constants.DB2_UDB);
 			}
 		}
 		

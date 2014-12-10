@@ -14,11 +14,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ListView;
+import application.AppServerCheck;
+import application.AppServerCheck.APPVERSIONS;
 import application.DBCheck;
 import application.DBCheckFactory;
-import application.DBMetaData;
+import application.OSCheck;
+import application.OSCheck.VERSIONS;
 import application.utils.Constants;
 
 /**
@@ -29,14 +32,10 @@ import application.utils.Constants;
 public class ValidateController implements Initializable 
 {
    @FXML Button backButton;
-   @FXML Label showDB;
-   @FXML Label showDBType;
-   @FXML Label showRules;
-   @FXML Label showHost;
-   @FXML Label showUname;
-   @FXML Label showData;
+  
    @FXML ListView checklistview;
    @FXML Button checkButton;
+   @FXML Hyperlink pdnlink;
    private DBCheck check;
    private ObservableList checkList = FXCollections.observableArrayList();
    private LoadController rootControl;
@@ -53,7 +52,6 @@ public class ValidateController implements Initializable
 		
 		if(rootControl.fetchMetaData() != null) 
 		{
-			renderMetaData(rootControl.fetchMetaData());
 			renderCheckList(rootControl.fetchMetaData().getDbType());
 		}
 		
@@ -66,18 +64,16 @@ public class ValidateController implements Initializable
 		Navigator.loadScreen(Constants.HOME_FXML);
 	}
 
-	private void renderMetaData(DBMetaData dbMetaData) 
-	{
-		showDBType.setText(dbMetaData.getDbType());
-		showRules.setText(dbMetaData.getRulesName());
-		showUname.setText(dbMetaData.getUserName());
-		showData.setText(dbMetaData.getDataName());
-		
-	}
+	
 	
 	@SuppressWarnings("unchecked")
 	private void renderCheckList (String dbType) 
 	{
+		// add supported OS and APP server checks
+		checkList.add(Constants.OS_CHECK + " - "+ rootControl.getOsChoice());
+		checkList.add(Constants.APP_SERVER_CHECK + " - "+ rootControl.getAppServerChoice());
+		
+		// add DB specific checks
 		check = DBCheckFactory.getVendorCheck(dbType);
 		checkList.addAll(check.getCheckList());
 		checklistview.setItems(checkList);
@@ -90,8 +86,8 @@ public class ValidateController implements Initializable
 		{
 			checkButton.setText("checking...");
 			checkButton.setDisable(true);
-			
-			//remove old list if first check
+
+			// clear checklist
 			if(checkList.size()>0)
 				{
 				 	checkList.removeAll(check.getCheckList());
@@ -99,7 +95,10 @@ public class ValidateController implements Initializable
 				}
 			ObservableList checkedList = FXCollections.observableArrayList();
 			
-			//execute all checks and set result to listview
+			//execute OS and APP server checks
+			checkandSetOSandAPPServer(checkedList);
+			
+			//execute DB checks and set result to listview
 			checkedList.addAll(check.executeChecks(rootControl.fetchMetaData()));
 			checklistview.setItems(checkedList);
 			
@@ -113,4 +112,39 @@ public class ValidateController implements Initializable
 			return;
 		}
 	}
+
+
+	/**
+	 * @param checkedList 
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	private void checkandSetOSandAPPServer(ObservableList checkedList) 
+	{
+		VERSIONS OSVer = OSCheck.VERSIONS.getVersionForValue(rootControl.getOsChoice());
+		if(OSVer.isSupported())
+		{
+			checkedList.add(Constants.TEST_SUCCESS+Constants.OS_CHECK + " - "+ rootControl.getOsChoice());
+		}
+		else
+		{
+			checkedList.add(Constants.TEST_FAILURE+Constants.OS_CHECK + " - "+ rootControl.getOsChoice());
+		}
+		
+		APPVERSIONS appVer = AppServerCheck.APPVERSIONS.getVersionForValue(rootControl.getAppServerChoice());
+		if(appVer.isSupported())
+		{
+			checkedList.add(Constants.TEST_SUCCESS+Constants.APP_SERVER_CHECK + " - "+ rootControl.getAppServerChoice());
+		}
+		else
+		{
+			checkedList.add(Constants.TEST_FAILURE+Constants.APP_SERVER_CHECK + " - "+ rootControl.getAppServerChoice());
+		}
+		
+	}
+	
+	@FXML protected void handleLinkAction(ActionEvent event)
+	{
+		Navigator.getHost().showDocument(Constants.PDN_PLATFORM_LINK);
+	} 
 }

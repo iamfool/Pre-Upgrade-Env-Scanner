@@ -14,7 +14,7 @@ public final class Constants
 {
 	/*All string constants*/
 	public static final String APP_TITLE="ECS Pre Upgrade Environment Scanner";
-	public static final String DB2_UDB = "DB2-udb";
+	public static final String DB2_UDB = "DB2-UDB (LUW)";
 	public static final String ORACLE = "Oracle";
 	public static final String MSSQL = "MS SQL Server";
 	public static final String DB2_ZOS = "DB2-ZOS";
@@ -46,21 +46,25 @@ public final class Constants
 	
 	
 	/*All checklist related constants*/
-	public static final String DB2_JAVA_ENABLED = "Java MUST be enabled";
-	public static final String DB2_SYSADM_PRIVILEGE ="User has SYSADM privilege";
-	public static final String DB2_DATAACCESS_PRIVILEGE ="User has DATAACCESS privilege";
-	public static final String DB2_TABLESPACE ="User has been granted atleast one 32K tablespace";
-	public static final String DB2_CREATE_EXTERNAL_ROUTINE_PRIVILEGE ="User has CREATE_EXTERNAL_ROUTINE privilege";
-	public static final String DB2_LOGFILESIZE ="Log file size is set to atleast 655,360 KB";
+	public static final String OS_CHECK = "Operating system version support";
+	public static final String APP_SERVER_CHECK = "Application server version support";
+	
+	public static final String DB2_JAVA_ENABLED = "Java MUST be enabled in database";
+	public static final String DB2_SYSADM_PRIVILEGE ="User has SYSADM privilege in database";
+	public static final String DB2_DATAACCESS_PRIVILEGE ="User has DATAACCESS privilegein database";
+	public static final String DB2_TABLESPACE ="User has been granted atleast one 32K tablespace in database";
+	public static final String DB2_CREATE_EXTERNAL_ROUTINE_PRIVILEGE ="User has CREATE_EXTERNAL_ROUTINE privilege in database";
+	public static final String DB2_LOGFILESIZE ="Log file size is set to atleast 655,360 KB in database";
 	
 	public static final String MSSQL_CLR_ENABLED ="CLR enabled in database";
-	public static final String MSSQL_PUBLIC_DBOWNER_PRIVILEGE ="User MUST have Public and DB_OWNER";
-	public static final String MSSQL_CREATE_FUNCTION_PRIVILEGE ="User MUST have create function";
-	public static final String MSSQL_ALTER_EXECUTE_PRIVILEGE ="ALTER and EXECUTE privileges";
+	public static final String MSSQL_PUBLIC_DBOWNER_PRIVILEGE ="User MUST have Public and DB_OWNER privileges in database";
+	public static final String MSSQL_CREATE_FUNCTION_PRIVILEGE ="User MUST have create function privilege in database";
+	public static final String MSSQL_ALTER_EXECUTE_PRIVILEGE ="User MUST have ALTER and EXECUTE privileges in database";
 	
-	public static final String ORACLE_JAVA_ENABLED ="Java MUST be enabled";
-	public static final String ORACLE_RESOURCE_CONNECT_PRIVILEGE ="User MUST have Resource and Connect";
-	public static final String ORACLE_CREATE_VIEW_PROCEDURE_PRIVILEGE ="User MUST have Create View and Create Procedure";
-	public static final String ORACLE_TABLESPACE ="User has unlimited tablespace";
+	public static final String ORACLE_JAVA_ENABLED ="Java MUST be enabled in database";
+	public static final String ORACLE_RESOURCE_CONNECT_PRIVILEGE ="User MUST have Resource and Connect privileges in database";
+	public static final String ORACLE_CREATE_VIEW_PROCEDURE_PRIVILEGE ="User MUST have Create View and Create Procedure privileges in database";
+	public static final String ORACLE_TABLESPACE ="User has unlimited tablespace in database";
+	public static final String PDN_PLATFORM_LINK = "https://pdn.pega.com/documents/platform-support-guide";
 	
 }

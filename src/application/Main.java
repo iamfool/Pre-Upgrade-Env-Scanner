@@ -18,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import application.controller.LoadController;
 import application.controller.Navigator;
 import application.utils.Constants;
@@ -32,7 +33,10 @@ public class Main extends Application {
 		{	
 			primaryStage.setTitle(Constants.APP_TITLE);
 			primaryStage.setScene(createScene(loadMainPane()));
+			primaryStage.setMaximized(true);
+			primaryStage.initStyle(StageStyle.UTILITY);
 			primaryStage.show();
+			
 		} 
 		catch(Exception e) 
 		{
@@ -54,6 +58,7 @@ public class Main extends Application {
 	        LoadController mainController = fxLoader.getController();
 	        Navigator.setLoader(mainController);
 	        Navigator.setFxLoader(fxLoader);
+	        Navigator.setHost(this.getHostServices());
 	        
 	        //load home pane
 	        Navigator.loadScreen(Constants.HOME_FXML);

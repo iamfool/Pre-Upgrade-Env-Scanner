@@ -7,6 +7,7 @@ package application.controller;
 
 import java.io.IOException;
 
+import javafx.application.HostServices;
 import javafx.fxml.FXMLLoader;
 
 /**
@@ -19,6 +20,8 @@ public class Navigator
 	private static LoadController loader;
 	
 	private static FXMLLoader fxLoader;
+
+	private static HostServices hostServices;
 
 	/**
 	 * @return the loader
@@ -63,5 +66,19 @@ public class Navigator
 	public static void setFxLoader(FXMLLoader fxLoader) 
 	{
 		Navigator.fxLoader = fxLoader;
+	}
+
+	/**
+	 * @param hostServices
+	 */
+	public static void setHost(HostServices hostServices) 
+	{
+		Navigator.hostServices = hostServices;
+		
+	}
+	
+	public static HostServices getHost()
+	{
+		return hostServices;
 	}
 }

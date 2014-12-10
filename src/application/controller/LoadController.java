@@ -19,6 +19,8 @@ public class LoadController {
 	 */
 	
 	private DBMetaData dbData;
+	private String osChoice;
+	private String appChoice;
 	@FXML StackPane loader;
 	
 	
@@ -28,13 +30,25 @@ public class LoadController {
 		loader.getChildren().setAll(node);
     }
 	
-	public void holdMetaData(DBMetaData dbData) 
+	public void holdMetaData(String osChoice, String appChoice, DBMetaData dbData) 
 	{
 		this.dbData = dbData;
+		this.osChoice = osChoice;
+		this.appChoice = appChoice;
 	}
     
 	public DBMetaData fetchMetaData() 
 	{
 		return this.dbData;
+	}
+	
+	public String getOsChoice()
+	{
+		return this.osChoice;
+	}
+	
+	public String getAppServerChoice()
+	{
+		return this.appChoice;
 	}
 }

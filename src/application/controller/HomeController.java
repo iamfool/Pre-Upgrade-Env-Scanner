@@ -24,19 +24,23 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import application.AppServerCheck;
 import application.DBCheck;
 import application.DBMetaData;
+import application.OSCheck;
 import application.utils.Constants;
 import application.utils.DBUtils;
 import application.utils.Utilities;
 
 
 
-
+@SuppressWarnings("rawtypes")
 public class HomeController implements Initializable 
 {
 	// list of fxids
-	@SuppressWarnings("rawtypes")
+	
+	@FXML private ChoiceBox oschoice;
+	@FXML private ChoiceBox appchoice;
 	@FXML private ChoiceBox dbChoice;
 	@FXML private Button submitButton; 
 	@FXML private AnchorPane homeAnchor;
@@ -54,10 +58,19 @@ public class HomeController implements Initializable
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{
+		// initialize OS vendor choice
+		oschoice.setItems(FXCollections.observableArrayList(OSCheck.VERSIONS.getAllOS()));
+		oschoice.setValue(OSCheck.VERSIONS.AIX53.getReadableValue());
+		
+		//initialize app server choice
+		appchoice.setItems(FXCollections.observableArrayList(AppServerCheck.APPVERSIONS.getAllAppServers()));
+		appchoice.setValue(AppServerCheck.APPVERSIONS.WAS61.getReadableValue());
+		
 		// initialize db vendor choice
-		dbChoice.setItems(FXCollections.observableArrayList(DBCheck.vendors) );
+		dbChoice.setItems(FXCollections.observableArrayList(DBCheck.VENDORS));
 		dbChoice.setValue(Constants.DB2_UDB);
 		url.setText(Constants.DB2_UDB_URL);
+		
 		errortext.setVisible(false);
 		
 		// add listener to set url
@@ -103,7 +116,7 @@ public class HomeController implements Initializable
 			
 			//set details in root controller so it can be accessed everywhere
 			LoadController rootControl = Navigator.getFxLoader().getController();
-			rootControl.holdMetaData(connect);
+			rootControl.holdMetaData(oschoice.getValue().toString(),appchoice.getValue().toString(),connect);
 			
 			 //load validate pane as connection succeeded 
 			Navigator.loadScreen(Constants.VALIDATE_FXML);      

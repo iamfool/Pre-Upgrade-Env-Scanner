@@ -14,7 +14,7 @@ import application.utils.Constants;
 public interface DBCheck 
 {
 
-public Object[] vendors = {Constants.DB2_UDB,Constants.ORACLE,Constants.MSSQL};
+public Object[] VENDORS = {Constants.DB2_UDB,Constants.ORACLE};
 /**
  * returns list of checks to be conducted
  * @return

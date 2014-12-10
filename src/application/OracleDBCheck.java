@@ -23,7 +23,7 @@ public class OracleDBCheck implements DBCheck
 	{
 		for(Oraclechecks check : Oraclechecks.values()) 
 		{
-			checks.add(check.getValue());
+			checks.add(check.getValue() + " - " + Constants.ORACLE);
 		}
 	}
 	
@@ -143,11 +143,11 @@ public class OracleDBCheck implements DBCheck
 			}
 			if(testPassed || (connectPassed && resourcePassed))
 			{
-				executedChecks.add(Constants.TEST_SUCCESS+this.value);
+				executedChecks.add(Constants.TEST_SUCCESS+this.value + " - " + Constants.ORACLE);
 			}
 			else 
 			{
-				executedChecks.add(Constants.TEST_FAILURE+this.value);
+				executedChecks.add(Constants.TEST_FAILURE+this.value + " - " + Constants.ORACLE);
 			}
 			
 			

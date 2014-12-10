@@ -20,7 +20,7 @@ public class MSSQLDBCheck implements DBCheck
 	{
 		for(MSSQLchecks check : MSSQLchecks.values()) 
 		{
-			checks.add(check.getValue());
+			checks.add(check.getValue() + " - "+ Constants.MSSQL);
 		}
 	}
 	
