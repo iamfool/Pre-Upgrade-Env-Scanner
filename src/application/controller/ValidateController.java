@@ -3,9 +3,7 @@
  */
 package application.controller;
 
-import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -16,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import application.AppServerCheck;
 import application.AppServerCheck.APPVERSIONS;
 import application.DBCheck;
@@ -36,6 +35,7 @@ public class ValidateController implements Initializable
    @FXML ListView checklistview;
    @FXML Button checkButton;
    @FXML Hyperlink pdnlink;
+   @FXML TextArea errortext;
    private DBCheck check;
    private ObservableList checkList = FXCollections.observableArrayList();
    private LoadController rootControl;
@@ -55,13 +55,23 @@ public class ValidateController implements Initializable
 			renderCheckList(rootControl.fetchMetaData().getDbType());
 		}
 		
+		errortext.setVisible(false);
 	}
 	
 	
-	@FXML protected void handleBackButtonAction(ActionEvent event) throws SQLException, IOException  
+	@FXML protected void handleBackButtonAction(ActionEvent event)   
 	{
-		rootControl.fetchMetaData().getConnection().close();
-		Navigator.loadScreen(Constants.HOME_FXML);
+		try
+		{
+			rootControl.fetchMetaData().getConnection().close();
+			Navigator.loadScreen(Constants.HOME_FXML);
+		}
+		catch(Exception e)
+		{
+			errortext.setVisible(true);
+			errortext.setText(e.getMessage());
+		}
+		
 	}
 
 	
@@ -80,7 +90,7 @@ public class ValidateController implements Initializable
 	}
 	
 	@SuppressWarnings("unchecked")
-	@FXML protected void handleCheckButtonAction(ActionEvent event) throws SQLException   
+	@FXML protected void handleCheckButtonAction(ActionEvent event)   
 	{
 		if(check != null)
 		{

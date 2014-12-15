@@ -7,5 +7,7 @@
 	<classpathentry kind="lib" path="D:/jdbc/db2jcc4.jar"/>
 	<classpathentry kind="lib" path="D:/jdbc/ojdbc6.jar"/>
 	<classpathentry kind="lib" path="D:/jdbc/sqljdbc4.jar"/>
+	<classpathentry kind="lib" path="D:/prddl.jar"/>
+	<classpathentry kind="lib" path="D:/prmaster-schema.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -4,7 +4,6 @@
 package application;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -40,7 +39,7 @@ public class OracleDBCheck implements DBCheck
 	 * @see application.DBCheck#executeChecks()
 	 */
 	@Override
-	public Object[] executeChecks(DBMetaData metaData) throws SQLException 
+	public Object[] executeChecks(DBMetaData metaData)
 	{
 		executedChecks.clear();
 		for(Oraclechecks check : Oraclechecks.values()) 
@@ -86,7 +85,7 @@ public class OracleDBCheck implements DBCheck
 			return this.value;
 		}
 		
-		public void test(ArrayList<String> executedChecks,DBMetaData metaData) throws SQLException
+		public void test(ArrayList<String> executedChecks,DBMetaData metaData)
 		{
 			Statement stmt;
 			ResultSet resultSet;
@@ -101,46 +100,56 @@ public class OracleDBCheck implements DBCheck
 			String banner = "BANNER";
 			String jserver = "JServer";
 			
-			switch(this)
+			try
 			{
-				case JAVA_ENABLED:
-					stmt = metaData.getConnection().createStatement();
-					resultSet = stmt.executeQuery(javaEnabledQuery);
-					while(resultSet.next())
-					{
-						if(resultSet.getString(banner).startsWith(jserver)) testPassed = true;
-					}
-					
-					break;
-				case RESOURCE_CONNECT_PRIVILEGE:
-					stmt = metaData.getConnection().createStatement();
-					resultSet = stmt.executeQuery(resourceConnectQuery);
-					while(resultSet.next())
-					{
-						if(resultSet.getString(grant).equals(connect)) connectPassed = true;
-						if(resultSet.getString(grant).equals(resource)) resourcePassed = true;
-					}
-					
-					break;
-				case CREATE_VIEW_PROCEDURE_PRIVILEGE:
-					stmt = metaData.getConnection().createStatement();
-					resultSet = stmt.executeQuery(createViewQuery);
-					while(resultSet.next())
-					{
-						if(resultSet.getString(privilege).equals(createview)) testPassed = true;
-					}
-					
-					break;
-				case TABLESPACE:
-					stmt = metaData.getConnection().createStatement();
-					resultSet = stmt.executeQuery(resourceConnectQuery);
-					while(resultSet.next())
-					{
-						if(resultSet.getString(grant).equals(resource)) testPassed = true;
-					}
-					
-					break;
+				switch(this)
+				{
+					case JAVA_ENABLED:
+						stmt = metaData.getConnection().createStatement();
+						resultSet = stmt.executeQuery(javaEnabledQuery);
+						while(resultSet.next())
+						{
+							if(resultSet.getString(banner).startsWith(jserver)) testPassed = true;
+						}
+						
+						break;
+					case RESOURCE_CONNECT_PRIVILEGE:
+						stmt = metaData.getConnection().createStatement();
+						resultSet = stmt.executeQuery(resourceConnectQuery);
+						while(resultSet.next())
+						{
+							if(resultSet.getString(grant).equals(connect)) connectPassed = true;
+							if(resultSet.getString(grant).equals(resource)) resourcePassed = true;
+						}
+						
+						break;
+					case CREATE_VIEW_PROCEDURE_PRIVILEGE:
+						stmt = metaData.getConnection().createStatement();
+						resultSet = stmt.executeQuery(createViewQuery);
+						while(resultSet.next())
+						{
+							if(resultSet.getString(privilege).equals(createview)) testPassed = true;
+						}
+						
+						break;
+					case TABLESPACE:
+						stmt = metaData.getConnection().createStatement();
+						resultSet = stmt.executeQuery(resourceConnectQuery);
+						while(resultSet.next())
+						{
+							if(resultSet.getString(grant).equals(resource)) testPassed = true;
+						}
+						
+						break;
+				}
 			}
+			catch(Exception e)
+			{
+				executedChecks.add(Constants.TEST_ERROR+this.value + " - " + Constants.ORACLE + Constants.TEST_ERROR + e.getMessage());
+				return;
+			}
+			
+			
 			if(testPassed || (connectPassed && resourcePassed))
 			{
 				executedChecks.add(Constants.TEST_SUCCESS+this.value + " - " + Constants.ORACLE);

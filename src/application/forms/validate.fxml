@@ -10,9 +10,9 @@
   <content>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
          <children>
-            <Button fx:id="backButton" layoutX="536.0" layoutY="335.0" mnemonicParsing="false" onAction="#handleBackButtonAction" text="Reset" />
-            <ListView fx:id="checklistview" editable="true" layoutX="9.0" layoutY="34.0" prefHeight="298.0" prefWidth="653.0" />
-            <Button fx:id="checkButton" layoutX="273.0" layoutY="335.0" mnemonicParsing="false" onAction="#handleCheckButtonAction" text="Check" />
+            <Button fx:id="backButton" layoutX="570.0" layoutY="312.0" mnemonicParsing="false" onAction="#handleBackButtonAction" text="Reset" />
+            <ListView fx:id="checklistview" editable="true" layoutX="9.0" layoutY="34.0" prefHeight="259.0" prefWidth="653.0" />
+            <Button fx:id="checkButton" layoutX="311.0" layoutY="312.0" mnemonicParsing="false" onAction="#handleCheckButtonAction" text="Check" />
             <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" text="Checks available for execution">
                <font>
                   <Font name="System Bold Italic" size="14.0" />
@@ -24,7 +24,8 @@
                </font>
             </Hyperlink>
             <Label layoutX="41.0" layoutY="383.0" prefHeight="46.0" prefWidth="641.0" text="Versions supported are liable to change.Refer platform support guide for latest update and special considerations for some operating system/application server versions" wrapText="true" />
-            <Label layoutX="16.0" layoutY="339.0" text="For PRPC Version: 7.1.7" />
+            <Label layoutX="14.0" layoutY="316.0" text="For PRPC Version: 7.1.7" />
+            <TextArea fx:id="errortext" editable="false" layoutX="9.0" layoutY="337.0" prefHeight="44.0" prefWidth="656.0" />
          </children></AnchorPane>
   </content>
 </TitledPane>

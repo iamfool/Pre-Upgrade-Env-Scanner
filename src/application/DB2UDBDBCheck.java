@@ -4,9 +4,9 @@
 package application;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+
 
 import application.utils.Constants;
 
@@ -39,7 +39,7 @@ public class DB2UDBDBCheck implements DBCheck {
 	 * @see application.DBCheck#executeChecks()
 	 */
 	@Override
-	public Object[] executeChecks(DBMetaData metaData) throws SQLException 
+	public Object[] executeChecks(DBMetaData metaData) 
 	{
 		executedChecks.clear();
 		for(DB2checks check : DB2checks.values())
@@ -84,7 +84,7 @@ public class DB2UDBDBCheck implements DBCheck {
 			return this.value;
 		}
 		
-		public void test(ArrayList<String> executedChecks,DBMetaData metaData) throws SQLException
+		public void test(ArrayList<String> executedChecks,DBMetaData metaData)
 		{
 			Statement stmt;
 			ResultSet resultSet;
@@ -106,77 +106,86 @@ public class DB2UDBDBCheck implements DBCheck {
 			String value = "VALUE";
 			String pagesize = "PAGESIZE";
 			
-			switch(this)
+			try
 			{
-				case JAVA_ENABLED:
-					//TODO: Implement the check
-					testPassed=true;
-					break;
-				case SYSADM_PRIVILEGE:
-					stmt = metaData.getConnection().createStatement();
-					resultSet = stmt.executeQuery(authQuery);
-					while(resultSet.next())
-					{
-						
-						if(resultSet.getString(authority).equals(sysadm))
+				switch(this)
+				{
+					case JAVA_ENABLED:
+						//TODO: Implement the check
+						testPassed=true;
+						break;
+					case SYSADM_PRIVILEGE:
+						stmt = metaData.getConnection().createStatement();
+						resultSet = stmt.executeQuery(authQuery);
+						while(resultSet.next())
 						{
-							if(resultSet.getString(d_group).equals(y))
+							
+							if(resultSet.getString(authority).equals(sysadm))
+							{
+								if(resultSet.getString(d_group).equals(y))
+								{
+									testPassed = true;
+								}
+							}
+							
+						}
+						
+						break;
+					case DATAACCESS_PRIVILEGE:
+						stmt = metaData.getConnection().createStatement();
+						resultSet = stmt.executeQuery(dataAccessQuery);
+						while(resultSet.next())
+						{
+							if(resultSet.getString(dataaccess).equals(y)) 
 							{
 								testPassed = true;
 							}
 						}
 						
-					}
-					
-					break;
-				case DATAACCESS_PRIVILEGE:
-					stmt = metaData.getConnection().createStatement();
-					resultSet = stmt.executeQuery(dataAccessQuery);
-					while(resultSet.next())
-					{
-						if(resultSet.getString(dataaccess).equals(y)) 
+						break;
+					case CREATE_EXTERNAL_ROUTINE_PRIVILEGE:
+						stmt = metaData.getConnection().createStatement();
+						resultSet = stmt.executeQuery(createExternalRoutineQuery);
+						while(resultSet.next())
 						{
-							testPassed = true;
+							if(resultSet.getString(createexternalroutine).equals(y))
+							{
+								testPassed = true;
+							} 
 						}
-					}
-					
-					break;
-				case CREATE_EXTERNAL_ROUTINE_PRIVILEGE:
-					stmt = metaData.getConnection().createStatement();
-					resultSet = stmt.executeQuery(createExternalRoutineQuery);
-					while(resultSet.next())
-					{
-						if(resultSet.getString(createexternalroutine).equals(y))
+						
+						break;
+					case TABLESPACE:
+						stmt = metaData.getConnection().createStatement();
+						resultSet = stmt.executeQuery(tablespaceQuery);
+						while(resultSet.next())
 						{
-							testPassed = true;
-						} 
-					}
-					
-					break;
-				case TABLESPACE:
-					stmt = metaData.getConnection().createStatement();
-					resultSet = stmt.executeQuery(tablespaceQuery);
-					while(resultSet.next())
-					{
-						if(resultSet.getInt(pagesize)==32768)
+							if(resultSet.getInt(pagesize)==32768)
+							{
+								testPassed = true;
+							} 
+						}
+						
+						break;
+					case LOGFILESIZE:
+						stmt = metaData.getConnection().createStatement();
+						resultSet = stmt.executeQuery(logFileSizeQuery);
+						while(resultSet.next())
 						{
-							testPassed = true;
-						} 
-					}
-					
-					break;
-				case LOGFILESIZE:
-					stmt = metaData.getConnection().createStatement();
-					resultSet = stmt.executeQuery(logFileSizeQuery);
-					while(resultSet.next())
-					{
-						if((Integer.parseInt(resultSet.getString(value))*4 >= 655360))
-						{
-							testPassed = true;
-						} 
-					}
-					break;
+							if((Integer.parseInt(resultSet.getString(value))*4 >= 655360))
+							{
+								testPassed = true;
+							} 
+						}
+						break;
+				}
 			}
+			catch(Exception e)
+			{
+				executedChecks.add(Constants.TEST_ERROR+this.value+ " - "+ Constants.DB2_UDB +Constants.TEST_ERROR + e.getMessage());
+				return;
+			}
+			
 			
 			if(testPassed)
 			{

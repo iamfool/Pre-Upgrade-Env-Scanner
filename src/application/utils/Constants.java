@@ -24,6 +24,7 @@ public final class Constants
 	public static final String CONNECTION_ERROR = "Connection Error";
 	public static final String CONNECTION_SUCCESS = "Connecion status : Success";
 	public static final String TEST_SUCCESS = "Success: ";
+	public static final String TEST_ERROR = "Error: ";
 	public static final String TEST_FAILURE = "Failed: ";
 	
 
@@ -51,7 +52,7 @@ public final class Constants
 	
 	public static final String DB2_JAVA_ENABLED = "Java MUST be enabled in database";
 	public static final String DB2_SYSADM_PRIVILEGE ="User has SYSADM privilege in database";
-	public static final String DB2_DATAACCESS_PRIVILEGE ="User has DATAACCESS privilegein database";
+	public static final String DB2_DATAACCESS_PRIVILEGE ="User has DATAACCESS privilege in database";
 	public static final String DB2_TABLESPACE ="User has been granted atleast one 32K tablespace in database";
 	public static final String DB2_CREATE_EXTERNAL_ROUTINE_PRIVILEGE ="User has CREATE_EXTERNAL_ROUTINE privilege in database";
 	public static final String DB2_LOGFILESIZE ="Log file size is set to atleast 655,360 KB in database";

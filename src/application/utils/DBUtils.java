@@ -40,7 +40,6 @@ public final class DBUtils
 		} 
 		catch (Exception e) 
 		{
-			e.printStackTrace();
 			dbConnect.setConnection(null);
 			dbConnect.setConnSuccess(false);
 			dbConnect.setErrorMessage(e.getMessage());
