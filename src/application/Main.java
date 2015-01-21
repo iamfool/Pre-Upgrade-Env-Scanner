@@ -32,7 +32,7 @@ public class Main extends Application {
 		{	
 			primaryStage.setTitle(Constants.APP_TITLE);
 			primaryStage.setScene(createScene(loadMainPane()));
-			//primaryStage.setMaximized(true);
+			primaryStage.setMaximized(true);
 			//primaryStage.initStyle(StageStyle.UTILITY);
 			primaryStage.show();
 			

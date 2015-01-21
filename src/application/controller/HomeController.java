@@ -46,7 +46,7 @@ public class HomeController implements Initializable
 	@FXML private AnchorPane homeAnchor;
 	@FXML private TextField uname;
 	@FXML private PasswordField pwd;
-	@FXML TextField url;
+	@FXML private TextField url;
 	@FXML private TextField ruleSchema;
 	@FXML private TextField dataSchema;
 	@FXML private Label errorcode;
