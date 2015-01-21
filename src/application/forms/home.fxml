@@ -63,7 +63,7 @@
                         <TextField fx:id="uname" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                         <PasswordField fx:id="pwd" GridPane.columnIndex="1" GridPane.rowIndex="11" />
                         <Label fx:id="errorcode" prefHeight="44.0" prefWidth="285.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="20" />
-                        <Label text="Rules Schema" GridPane.halignment="CENTER" GridPane.rowIndex="13" />
+                        <Label text="Current  Schema Name" GridPane.halignment="CENTER" GridPane.rowIndex="13" />
                         <Label text="Data Schema" GridPane.halignment="CENTER" GridPane.rowIndex="15" />
                         <TextField fx:id="ruleSchema" GridPane.columnIndex="1" GridPane.rowIndex="13" />
                         <TextField fx:id="dataSchema" GridPane.columnIndex="1" GridPane.rowIndex="15" />
