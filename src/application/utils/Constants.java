@@ -26,6 +26,15 @@ public final class Constants
 	public static final String TEST_SUCCESS = "Success: ";
 	public static final String TEST_ERROR = "Error: ";
 	public static final String TEST_FAILURE = "Failed: ";
+	public static final String ORACLE_ALERT = "Enter new rules user/schema";
+	public static final String INSTALL_MEDIA_NOT_AVAILABLE = "Installation media directory not available";
+	public static final String ML_BUILD_ALERT = "This is an ML Build. Please utilize full build for upgrade";
+	public static final String UPGRADE_BUILD_NOT_AVAILABLE = "Upgrade artefacts not available";
+	public static final String PRPC_SETUP_JAR = "PRPC_Setup.jar";
+	public static final String RESOURCEKIT_DIRECTORY_NAME = "ResourceKit";
+	public static final String ML_SETUP_JAR  = "ML_Setup.jar";
+	public static final String JAR_PATH = "\\archives\\udf\\prmaster-schema.jar";
+	
 	
 
 	
@@ -49,6 +58,7 @@ public final class Constants
 	/*All checklist related constants*/
 	public static final String OS_CHECK = "Operating system version support";
 	public static final String APP_SERVER_CHECK = "Application server version support";
+	public static final String UPGRADE_BUILD_CHECK = "7.1.7 media is upgrade compliant";
 	
 	public static final String DB2_JAVA_ENABLED = "Java MUST be enabled in database";
 	public static final String DB2_SYSADM_PRIVILEGE ="User has SYSADM privilege in database";

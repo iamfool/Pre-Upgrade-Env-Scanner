@@ -12,6 +12,9 @@ package application.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import application.DBMetaData;
 
@@ -20,7 +23,7 @@ import application.DBMetaData;
 public final class DBUtils 
 {
 
-	public static DBMetaData getConnection (String dbtype, String jdbcurl, String username, String password, String ruleSchema, String dataSchema)
+	public static DBMetaData getConnection (String dbtype, String jdbcurl, String username, String password, String dataSchema)
 	{
 		DBMetaData dbConnect = new DBMetaData();
 		try 
@@ -32,7 +35,7 @@ public final class DBUtils
 			
 			//set input details
 			dbConnect.setDbType(dbtype);
-			dbConnect.setRulesName(ruleSchema);
+			
 			dbConnect.setDataName(dataSchema);
 			dbConnect.setUserName(connection.getMetaData().getUserName());
 			
@@ -48,5 +51,36 @@ public final class DBUtils
 		return dbConnect;
 	}
 	
+	public static void closeQueries(Statement stmt,ResultSet resultSet)
+	{
+		try
+		{
+			if(stmt != null)
+			{
+				stmt.close();
+			}
+			if(resultSet != null)
+			{
+				resultSet.close();
+			}
+		}
+		catch(Exception e)
+		{
+			// do nothing
+		}
+		
+	}
 	
+	public static void closeConnection(Connection connection)
+	{
+		try 
+		{
+			connection.close();
+		} 
+		catch (SQLException e) 
+		{
+			// do nothing
+		}
+		
+	}
 }

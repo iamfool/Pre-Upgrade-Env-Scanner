@@ -3,7 +3,10 @@
  */
 package application.controller;
 
+import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 import javafx.collections.FXCollections;
@@ -19,9 +22,14 @@ import application.AppServerCheck;
 import application.AppServerCheck.APPVERSIONS;
 import application.DBCheck;
 import application.DBCheckFactory;
+import application.DBMetaData;
 import application.OSCheck;
 import application.OSCheck.VERSIONS;
+import application.SchemaCustomizationCheck;
+import application.SchemaCustomizationCheck.CUSTOMIZATIONLISTS;
 import application.utils.Constants;
+import application.utils.DBUtils;
+import application.utils.Utilities;
 
 /**
  * @author ramas6
@@ -33,13 +41,17 @@ public class ValidateController implements Initializable
    @FXML Button backButton;
   
    @FXML ListView checklistview;
+   @FXML ListView customizationview;
+   @FXML ListView resultview;
    @FXML Button checkButton;
    @FXML Hyperlink pdnlink;
    @FXML TextArea errortext;
    private DBCheck check;
    private ObservableList checkList = FXCollections.observableArrayList();
+   private ObservableList customizationList = FXCollections.observableArrayList();
    private LoadController rootControl;
-   
+   private boolean buildSuccess = false;
+   private HashMap<CUSTOMIZATIONLISTS, ArrayList<String>> resultMap;
    
    
 	/* (non-Javadoc)
@@ -61,17 +73,8 @@ public class ValidateController implements Initializable
 	
 	@FXML protected void handleBackButtonAction(ActionEvent event)   
 	{
-		try
-		{
-			rootControl.fetchMetaData().getConnection().close();
-			Navigator.loadScreen(Constants.HOME_FXML);
-		}
-		catch(Exception e)
-		{
-			errortext.setVisible(true);
-			errortext.setText(e.getMessage());
-		}
-		
+		DBUtils.closeConnection(rootControl.fetchMetaData().getConnection());
+		Navigator.loadScreen(Constants.HOME_FXML);
 	}
 
 	
@@ -83,10 +86,17 @@ public class ValidateController implements Initializable
 		checkList.add(Constants.OS_CHECK + " - "+ rootControl.getOsChoice());
 		checkList.add(Constants.APP_SERVER_CHECK + " - "+ rootControl.getAppServerChoice());
 		
+		//add ml or updgrade build check
+		checkList.add(Constants.UPGRADE_BUILD_CHECK);
+		
 		// add DB specific checks
 		check = DBCheckFactory.getVendorCheck(dbType);
 		checkList.addAll(check.getCheckList());
 		checklistview.setItems(checkList);
+		
+		//add customization checks
+		customizationList.addAll(SchemaCustomizationCheck.getCheckList());
+		customizationview.setItems(customizationList);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -108,9 +118,15 @@ public class ValidateController implements Initializable
 			//execute OS and APP server checks
 			checkandSetOSandAPPServer(checkedList);
 			
+			//check whether build is not ML build
+			checkIfNotMLBuild(checkedList);
+			
 			//execute DB checks and set result to listview
 			checkedList.addAll(check.executeChecks(rootControl.fetchMetaData()));
 			checklistview.setItems(checkedList);
+			
+			//execute schema customization checks
+			checkForSchemaCustomizations(checkedList,rootControl.fetchMetaData());
 			
 			checkButton.setDisable(false);
 			checkButton.setText("Re-Check");
@@ -120,6 +136,58 @@ public class ValidateController implements Initializable
 		else
 		{
 			return;
+		}
+	}
+
+
+	/**
+	 * @param checkedList
+	 * @param fetchMetaData
+	 */
+	private void checkForSchemaCustomizations(ObservableList checkedList,DBMetaData metaData) 
+	{
+		if(buildSuccess)
+		{
+			resultMap = SchemaCustomizationCheck.executeChecks(metaData,rootControl.getFolderPath());
+		}
+		
+	}
+
+
+	/**
+	 * @param checkedList
+	 */
+	@SuppressWarnings("unchecked")
+	private void checkIfNotMLBuild(ObservableList checkedList) 
+	{
+		String folderPath = rootControl.getFolderPath();
+		boolean checkForPRPCSetup = false;
+		boolean checkForResourceKitFolder = false;
+		boolean checkForMLBuild = false;
+		if(!Utilities.isEmpty(folderPath))
+		{
+			checkForPRPCSetup = new File(folderPath, Constants.PRPC_SETUP_JAR).exists();
+			checkForResourceKitFolder = new File(folderPath, Constants.RESOURCEKIT_DIRECTORY_NAME).exists();
+			checkForMLBuild = new File(folderPath,Constants.ML_SETUP_JAR).exists();
+		}
+		else 
+		{
+			checkedList.add(Constants.TEST_ERROR+Constants.UPGRADE_BUILD_CHECK + " - "+ Constants.INSTALL_MEDIA_NOT_AVAILABLE);
+			return;
+		}
+		
+		if(checkForPRPCSetup && checkForResourceKitFolder)
+		{
+			checkedList.add(Constants.TEST_SUCCESS+Constants.UPGRADE_BUILD_CHECK );
+			buildSuccess = true;
+		}
+		else if(checkForMLBuild)
+		{
+			checkedList.add(Constants.TEST_FAILURE+Constants.UPGRADE_BUILD_CHECK+ " - "+ Constants.ML_BUILD_ALERT );
+		}
+		else 
+		{
+			checkedList.add(Constants.TEST_FAILURE+Constants.UPGRADE_BUILD_CHECK + " - " + Constants.UPGRADE_BUILD_NOT_AVAILABLE);
 		}
 	}
 

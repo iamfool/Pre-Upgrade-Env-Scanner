@@ -6,26 +6,38 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TitledPane animated="false" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="675.0" text="Environment Scanner" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ValidateController">
+<TitledPane animated="false" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="552.0" prefWidth="682.0" text="Environment Scanner" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ValidateController">
   <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="472.0" prefWidth="680.0">
          <children>
-            <Button fx:id="backButton" layoutX="570.0" layoutY="312.0" mnemonicParsing="false" onAction="#handleBackButtonAction" text="Reset" />
-            <ListView fx:id="checklistview" editable="true" layoutX="9.0" layoutY="34.0" prefHeight="259.0" prefWidth="653.0" />
-            <Button fx:id="checkButton" layoutX="311.0" layoutY="312.0" mnemonicParsing="false" onAction="#handleCheckButtonAction" text="Check" />
-            <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" text="Checks available for execution">
+            <Button fx:id="backButton" layoutX="572.0" layoutY="351.0" mnemonicParsing="false" onAction="#handleBackButtonAction" text="Reset" />
+            <ListView fx:id="checklistview" editable="true" layoutX="9.0" layoutY="34.0" prefHeight="150.0" prefWidth="660.0" />
+            <Button fx:id="checkButton" layoutX="312.0" layoutY="351.0" mnemonicParsing="false" onAction="#handleCheckButtonAction" text="Check" />
+            <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" text="Environment Checks ">
                <font>
                   <Font name="System Bold Italic" size="14.0" />
                </font>
             </Label>
-            <Hyperlink fx:id="pdnlink" layoutX="284.0" layoutY="429.0" onAction="#handleLinkAction" text="PDN Platform support guide">
+            <Hyperlink fx:id="pdnlink" layoutX="269.0" layoutY="504.0" onAction="#handleLinkAction" text="PDN Platform support guide">
                <font>
                   <Font name="System Bold Italic" size="10.0" />
                </font>
             </Hyperlink>
-            <Label layoutX="41.0" layoutY="383.0" prefHeight="46.0" prefWidth="641.0" text="Versions supported are liable to change.Refer platform support guide for latest update and special considerations for some operating system/application server versions" wrapText="true" />
-            <Label layoutX="14.0" layoutY="316.0" text="For PRPC Version: 7.1.7" />
-            <TextArea fx:id="errortext" editable="false" layoutX="9.0" layoutY="337.0" prefHeight="44.0" prefWidth="656.0" />
+            <Label layoutX="25.0" layoutY="442.0" prefHeight="46.0" prefWidth="641.0" text="Versions supported are liable to change.Refer platform support guide for latest update and special considerations for some operating system/application server versions" wrapText="true" />
+            <Label layoutX="13.0" layoutY="363.0" text="For PRPC Version: 7.1.7" />
+            <TextArea fx:id="errortext" editable="false" layoutX="8.0" layoutY="386.0" prefHeight="44.0" prefWidth="656.0" />
+            <ListView fx:id="customizationview" editable="true" layoutX="13.0" layoutY="214.0" prefHeight="120.0" prefWidth="306.0" />
+            <ListView fx:id="resultview" editable="true" layoutX="363.0" layoutY="214.0" prefHeight="120.0" prefWidth="306.0" />
+            <Label alignment="CENTER" layoutX="14.0" layoutY="188.0" text="Schema Customizations">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="363.0" layoutY="188.0" text="Customization Details">
+               <font>
+                  <Font name="System Bold Italic" size="14.0" />
+               </font>
+            </Label>
          </children></AnchorPane>
   </content>
 </TitledPane>
