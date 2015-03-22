@@ -175,7 +175,7 @@ public final class SchemaCustomizationCheck
 	                    			  Element routineElement = (Element)routineNodes.item(routineCount);
 	                    			  if(routineElement.getAttribute("filter").equals("udf"))
 	                    			  {
-	                    				  database.getRoutines().add(routineElement.getAttribute("name")+"_udf");
+	                    				  database.getRoutines().add(routineElement.getAttribute("name")+"_UDF");
 	                    			  }
 	                    			  else
 	                    			  {
@@ -185,9 +185,6 @@ public final class SchemaCustomizationCheck
 	                    	  }
 	                      }
 	                   }
-		                   System.out.println(" Routines size "+database.getRoutines().size());
-		                   System.out.println(" table size "+database.getTables().size());
-		                   System.out.println(" view size "+database.getViews().size());
 		            }
 		        }
 		}       
@@ -232,6 +229,15 @@ public final class SchemaCustomizationCheck
 		public String getValue()
 		{
 			return this.readableValue;
+		}
+		
+		public static CUSTOMIZATIONLISTS getEnum(String readableValue)
+		{
+			for(CUSTOMIZATIONLISTS item: CUSTOMIZATIONLISTS.values())
+			{
+				if(item.readableValue.equals(readableValue))return item;
+			}
+			return null;
 		}
 	}
 }

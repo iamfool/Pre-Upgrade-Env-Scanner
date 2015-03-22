@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -48,15 +50,18 @@ public class ValidateController implements Initializable
    @FXML TextArea errortext;
    private DBCheck check;
    private ObservableList checkList = FXCollections.observableArrayList();
+   private ObservableList resultSetList = FXCollections.observableArrayList();
    private ObservableList customizationList = FXCollections.observableArrayList();
    private LoadController rootControl;
    private boolean buildSuccess = false;
-   private HashMap<CUSTOMIZATIONLISTS, ArrayList<String>> resultMap;
+   private HashMap<CUSTOMIZATIONLISTS, ArrayList<String>> resultMap = null;
+   ArrayList<String> resultList = null;
    
    
 	/* (non-Javadoc)
 	 * @see javafx.fxml.Initializable#initialize(java.net.URL, java.util.ResourceBundle)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) 
 	{
@@ -68,6 +73,22 @@ public class ValidateController implements Initializable
 		}
 		
 		errortext.setVisible(false);
+		
+		
+		customizationview.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() 
+				{
+		    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) 
+		    		{
+		        		if(resultMap != null && resultMap.get(CUSTOMIZATIONLISTS.getEnum(newValue)) != null)
+		        		{
+		        			resultSetList.clear();
+		        			resultSetList.addAll(resultMap.get(CUSTOMIZATIONLISTS.getEnum(newValue)));
+		        			resultview.setItems(resultSetList);
+		        			
+		        		}
+		    		}
+				}
+		    );
 	}
 	
 	

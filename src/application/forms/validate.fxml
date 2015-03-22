@@ -28,12 +28,12 @@
             <TextArea fx:id="errortext" editable="false" layoutX="8.0" layoutY="386.0" prefHeight="44.0" prefWidth="656.0" />
             <ListView fx:id="customizationview" editable="true" layoutX="13.0" layoutY="214.0" prefHeight="120.0" prefWidth="306.0" />
             <ListView fx:id="resultview" editable="true" layoutX="363.0" layoutY="214.0" prefHeight="120.0" prefWidth="306.0" />
-            <Label alignment="CENTER" layoutX="14.0" layoutY="188.0" text="Schema Customizations">
+            <Label alignment="CENTER" layoutX="14.0" layoutY="188.0" text="Schema Checks">
                <font>
                   <Font name="System Bold Italic" size="14.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutX="363.0" layoutY="188.0" text="Customization Details">
+            <Label alignment="CENTER" layoutX="363.0" layoutY="188.0" text="Results">
                <font>
                   <Font name="System Bold Italic" size="14.0" />
                </font>

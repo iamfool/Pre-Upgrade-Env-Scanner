@@ -33,7 +33,11 @@ public final class OracleCustomizationCheck
 		ResultSet resultSet = null;
 		// find all new tables
 		String listTablesQuery = "select table_name from all_tables where owner='"+metaData.getDataName().toUpperCase()+"'";
-		String TABLE_NAME = 	"TABLE_NAME";
+		String listSPsQuery = "select OBJECT_NAME from ALL_OBJECTS where  owner = '"+metaData.getDataName().toUpperCase()+"' AND object_type in ( 'PROCEDURE', 'FUNCTION')";
+		String listViewsQuery = "select OBJECT_NAME from ALL_OBJECTS where  owner = '"+metaData.getDataName().toUpperCase()+"' AND object_type in ( 'VIEW')";
+		String COLUMN_NAME_TABLE = "TABLE_NAME";
+		String COLUMN_NAME_OBJNAME = "OBJECT_NAME";
+		
 		try
 		{
 			switch(custom)
@@ -50,7 +54,7 @@ public final class OracleCustomizationCheck
 					int count = 0;
 					while(resultSet.next())
 					{
-						tableNameList.add(resultSet.getString(TABLE_NAME));
+						tableNameList.add(resultSet.getString(COLUMN_NAME_TABLE));
 					}
 					
 					for(Table table : database.getTables())
@@ -59,15 +63,64 @@ public final class OracleCustomizationCheck
 						if(!tableNameList.contains(tableName.toUpperCase()))
 						{
 							count++;
-							newTableList.add(tableName);
+							newTableList.add("Table Name : "+ tableName + " Schema Type : "+ table.getSchemaType());
 						}
 					}
-					newTableList.add(0, "*** new table count = "+ count + " ***");
+					newTableList.add(0, "Count = "+ count);
 					resultMap.put(CUSTOMIZATIONLISTS.NEW_TABLES, newTableList);
 					break;
 				case NEW_SPS:
+					stmt = metaData.getConnection().createStatement();
+					resultSet = stmt.executeQuery(listSPsQuery);
+					ArrayList<String> SPNameList = new ArrayList<String>();
+					ArrayList<String> newSPList = new ArrayList<String>();
+					int spCount = 0;
+					int udfCount = 0;
+					while(resultSet.next())
+					{
+						SPNameList.add(resultSet.getString(COLUMN_NAME_OBJNAME));
+					}
+					for(String routine : database.getRoutines())
+					{
+						if(routine.contains("_UDF"))
+						{
+							routine = routine.substring(0, routine.length()-4);
+							if(!SPNameList.contains(routine.toUpperCase()))
+							{
+								udfCount++;
+								newSPList.add(routine + " (udf)");
+							}
+						}
+						else if(!SPNameList.contains(routine.toUpperCase()))
+						{
+							spCount++;
+							newSPList.add(routine);
+						}
+					}
+					newSPList.add(0,"Count: udf- "+ udfCount + " , stored proc- "+ spCount);
+					resultMap.put(CUSTOMIZATIONLISTS.NEW_SPS, newSPList);
 					break;
 				case NEW_VIEWS:
+					stmt = metaData.getConnection().createStatement();
+					resultSet = stmt.executeQuery(listViewsQuery);
+					ArrayList<String> viewNameList = new ArrayList<String>();
+					ArrayList<String> newViewList = new ArrayList<String>();
+					int viewCount = 0;
+					while(resultSet.next())
+					{
+						viewNameList.add(resultSet.getString(COLUMN_NAME_OBJNAME));
+					}
+					for(String view : database.getViews())
+					{
+						
+						if(!viewNameList.contains(view.toUpperCase()))
+						{
+							viewCount++;
+							newViewList.add(view);
+						}
+					}
+					newViewList.add(0,"Count: "+ viewCount);
+					resultMap.put(CUSTOMIZATIONLISTS.NEW_VIEWS, newViewList);
 					break;
 			}
 			
