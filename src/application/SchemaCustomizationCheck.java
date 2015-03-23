@@ -60,7 +60,10 @@ public final class SchemaCustomizationCheck
 		Database database = createDBObjectFromXML(folderPath);
 		if(metaData.getDbType().equals(Constants.DB2_UDB))
 		{
-			//TODO: Implement DB2 checks
+			for(CUSTOMIZATIONLISTS custom : CUSTOMIZATIONLISTS.values())
+			{
+				DB2UDBCustomizationCheck.executeChecks(custom,metaData,database,resultMap);
+			}
 		}
 		else if(metaData.getDbType().equals(Constants.ORACLE))
 		{
