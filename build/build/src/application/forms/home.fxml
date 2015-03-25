@@ -7,16 +7,17 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.TilePane?>
 
-<TitledPane animated="false" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="421.0" prefWidth="600.0" text="Enter environment details" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.HomeController">
+<TitledPane animated="false" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="698.0" prefWidth="686.0" text="Enter environment details" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.HomeController">
   <content>
       <StackPane fx:id="masterStack">
          <children>
-          <AnchorPane fx:id="homeAnchor" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+          <AnchorPane fx:id="homeAnchor">
                <children>
-                  <GridPane layoutX="14.0" layoutY="14.0" prefHeight="354.0" prefWidth="570.0">
+                  <GridPane layoutX="1.0" layoutY="9.0" prefHeight="619.0" prefWidth="659.0">
                     <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="291.0" minWidth="10.0" prefWidth="291.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="348.0" minWidth="0.0" prefWidth="309.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="147.0" minWidth="0.0" prefWidth="2.0" />
                     </columnConstraints>
                     <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -42,7 +43,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label alignment="BASELINE_RIGHT" text="Beta_v1.0.2_7.1.7" GridPane.rowIndex="20">
+                        <Label alignment="BASELINE_RIGHT" text="Beta_v1.0.3" GridPane.rowIndex="20">
                            <opaqueInsets>
                               <Insets top="100.0" />
                            </opaqueInsets>
@@ -54,26 +55,27 @@
                         </Label>
                         <Label text="Operating System" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                         <Label text="Application Server" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                        <ChoiceBox fx:id="oschoice" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                        <ChoiceBox fx:id="appchoice" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                        <ChoiceBox fx:id="dbChoice" prefWidth="150.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+                        <ChoiceBox fx:id="oschoice" prefHeight="27.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                        <ChoiceBox fx:id="appchoice" prefHeight="27.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                        <ChoiceBox fx:id="dbChoice" prefHeight="27.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
                         <Label text="JDBC URL*" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
-                        <Label text="Username*" GridPane.halignment="CENTER" GridPane.rowIndex="9" />
-                        <TextField fx:id="url" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                        <Label text="PRPC DB Username*" GridPane.halignment="CENTER" GridPane.rowIndex="9" />
+                        <TextField fx:id="url" prefHeight="27.0" prefWidth="249.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
                         <TextField fx:id="uname" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                         <PasswordField fx:id="pwd" GridPane.columnIndex="1" GridPane.rowIndex="11" />
                         <Label fx:id="errorcode" prefHeight="44.0" prefWidth="285.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="20" />
-                        <Label text="Current  Schema Name" GridPane.halignment="CENTER" GridPane.rowIndex="13" />
-                        <Label text="Data Schema" GridPane.halignment="CENTER" GridPane.rowIndex="15" />
-                        <TextField fx:id="ruleSchema" GridPane.columnIndex="1" GridPane.rowIndex="13" />
-                        <TextField fx:id="dataSchema" GridPane.columnIndex="1" GridPane.rowIndex="15" />
+                        <Label text="Pre-Upgrade PRPC Schema Name*" GridPane.halignment="CENTER" GridPane.rowIndex="13" />
+                        <Label text="Path to Upgrade media home" GridPane.halignment="CENTER" GridPane.rowIndex="15" />
+                        <TextField fx:id="dataSchema" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+                        <TextField fx:id="installPath" GridPane.columnIndex="1" GridPane.rowIndex="15" />
                         <Label text="Password*" GridPane.halignment="CENTER" GridPane.rowIndex="11" />
                         <Button fx:id="submitButton" mnemonicParsing="false" onAction="#handleSubmitButtonAction" text="Submit" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="17" />
                         <TextArea fx:id="errortext" editable="false" prefHeight="87.0" prefWidth="273.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="20">
                            <font>
                               <Font name="System Bold" size="9.0" />
                            </font>
-                        </TextArea>                        
+                        </TextArea>
+                        <Label fx:id="oraclealert" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="10" />                        
                      </children>
                   </GridPane>
                </children>

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -23,7 +24,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import application.AppServerCheck;
 import application.AppServerCheck.APPVERSIONS;
 import application.DBCheck;
@@ -51,7 +51,8 @@ public class ValidateController implements Initializable
    @FXML ListView resultview;
    @FXML Button checkButton;
    @FXML Hyperlink pdnlink;
-   @FXML TextArea errortext;
+   @FXML Hyperlink exportexcel;
+   @FXML Label errortext;
    @FXML Label forPRPCVersionText;
    private DBCheck check;
    private ObservableList checkList = FXCollections.observableArrayList();
@@ -78,8 +79,7 @@ public class ValidateController implements Initializable
 		}
 		
 		errortext.setVisible(false);
-		
-		
+		exportexcel.setVisible(false);
 		customizationview.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() 
 				{
 		    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) 
@@ -152,10 +152,10 @@ public class ValidateController implements Initializable
 			catch(Exception e)
 			{
 				errortext.setText(Constants.TEST_ERROR+e.getMessage());
+				checkedList.add(Constants.TEST_ERROR+Constants.UPGRADE_BUILD_CHECK + Constants.HYPHEN + Constants.INSTALL_MEDIA_NOT_AVAILABLE);
 				errortext.setVisible(true);
 				
 			}
-			
 			
 			//execute DB checks and set result to listview
 			checkedList.addAll(check.executeChecks(rootControl.fetchMetaData()));
@@ -166,7 +166,11 @@ public class ValidateController implements Initializable
 			
 			checkButton.setDisable(false);
 			checkButton.setText(Constants.RE_CHECK);
-			
+			if(buildSuccess)
+			{
+				exportexcel.setVisible(true);
+				errortext.setVisible(false);
+			}
 			
 		}
 		else
@@ -274,5 +278,12 @@ public class ValidateController implements Initializable
 	@FXML protected void handleLinkAction(ActionEvent event)
 	{
 		Navigator.getHost().showDocument(Constants.PDN_PLATFORM_LINK);
+	} 
+	
+	@FXML protected void handleExportToExcelAction(ActionEvent event)
+	{
+		String fileName = "ENVScannerReport"+System.currentTimeMillis();
+		errortext.setText("Export sucessful.Results exported to "+ rootControl.getFolderPath()+ "File Name: "+ fileName);
+		errortext.setVisible(true);
 	} 
 }

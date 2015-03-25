@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import application.utils.Constants;
+import application.utils.DBUtils;
 
 /**
  * @author ramas6
@@ -87,8 +88,8 @@ public class OracleDBCheck implements DBCheck
 		
 		public void test(ArrayList<String> executedChecks,DBMetaData metaData)
 		{
-			Statement stmt;
-			ResultSet resultSet;
+			Statement stmt = null;
+			ResultSet resultSet = null;
 			boolean testPassed = false;
 			boolean connectPassed = false;
 			boolean resourcePassed = false;
@@ -146,6 +147,7 @@ public class OracleDBCheck implements DBCheck
 			catch(Exception e)
 			{
 				executedChecks.add(Constants.TEST_ERROR+this.value + " - " + Constants.ORACLE + Constants.TEST_ERROR + e.getMessage());
+				DBUtils.closeQueries(stmt, resultSet);
 				return;
 			}
 			
@@ -159,7 +161,7 @@ public class OracleDBCheck implements DBCheck
 				executedChecks.add(Constants.TEST_FAILURE+this.value + " - " + Constants.ORACLE);
 			}
 			
-			
+			DBUtils.closeQueries(stmt, resultSet);
 		}
 		
 	}

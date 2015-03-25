@@ -49,7 +49,9 @@ public class HomeController implements Initializable
 	@FXML private TextField url;
 	@FXML private TextField ruleSchema;
 	@FXML private TextField dataSchema;
+	@FXML private TextField installPath;
 	@FXML private Label errorcode;
+	@FXML private Label oraclealert;
 	@FXML private TextArea errortext;
 	
 	 
@@ -70,7 +72,7 @@ public class HomeController implements Initializable
 		dbChoice.setItems(FXCollections.observableArrayList(DBCheck.VENDORS));
 		dbChoice.setValue(Constants.DB2_UDB);
 		url.setText(Constants.DB2_UDB_URL);
-		
+		oraclealert.setVisible(false);
 		errortext.setVisible(false);
 		
 		// add listener to set url
@@ -105,7 +107,7 @@ public class HomeController implements Initializable
 	{
 	   if (!variablesEmpty())
 	   {
-			DBMetaData connect = DBUtils.getConnection(dbChoice.getValue().toString(),url.getText(),uname.getText(),pwd.getText(),ruleSchema.getText().toUpperCase(),dataSchema.getText().toUpperCase());
+			DBMetaData connect = DBUtils.getConnection(dbChoice.getValue().toString(),url.getText(),uname.getText(),pwd.getText(),dataSchema.getText().toUpperCase());
 			if (!connect.isConnSuccess())
 			{
 				errortext.setText(Constants.CONNECTION_ERROR + connect.getErrorMessage());
@@ -116,7 +118,7 @@ public class HomeController implements Initializable
 			
 			//set details in root controller so it can be accessed everywhere
 			LoadController rootControl = Navigator.getFxLoader().getController();
-			rootControl.holdMetaData(oschoice.getValue().toString(),appchoice.getValue().toString(),connect);
+			rootControl.holdMetaData(oschoice.getValue().toString(),appchoice.getValue().toString(),connect,installPath.getText());
 			
 			 //load validate pane as connection succeeded 
 			Navigator.loadScreen(Constants.VALIDATE_FXML);      
@@ -127,7 +129,8 @@ public class HomeController implements Initializable
 	private boolean variablesEmpty()
 	{
 		//check for uname,pwd,url filled
-				if(Utilities.isEmpty(url.getText()) || Utilities.isEmpty(uname.getText()) || Utilities.isEmpty(pwd.getText()))
+				if(Utilities.isEmpty(url.getText()) || Utilities.isEmpty(uname.getText()) || Utilities.isEmpty(pwd.getText())
+						|| Utilities.isEmpty(dataSchema.getText()))
 				{
 					errorcode.setText(Constants.SUBMIT_ERROR);
 					errortext.setVisible(false);

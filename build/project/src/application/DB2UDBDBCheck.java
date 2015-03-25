@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import application.utils.Constants;
+import application.utils.DBUtils;
 
 /**
  * @author ramas6
@@ -85,8 +86,8 @@ public class DB2UDBDBCheck implements DBCheck {
 		
 		public void test(ArrayList<String> executedChecks,DBMetaData metaData)
 		{
-			Statement stmt;
-			ResultSet resultSet;
+			Statement stmt = null;
+			ResultSet resultSet = null;
 			String authQuery = "SELECT * FROM TABLE (SYSPROC.AUTH_LIST_AUTHORITIES_FOR_AUTHID('"
 			+metaData.getUserName().toUpperCase()+"', 'U')) AS T ORDER BY AUTHORITY";
 			String dataAccessQuery = "SELECT DATAACCESSAUTH FROM SYSCAT.DBAUTH WHERE GRANTEE='"+metaData.getUserName().toUpperCase()+"' AND GRANTEETYPE = 'U'";
@@ -182,6 +183,7 @@ public class DB2UDBDBCheck implements DBCheck {
 			catch(Exception e)
 			{
 				executedChecks.add(Constants.TEST_ERROR+this.value+ " - "+ Constants.DB2_UDB +Constants.TEST_ERROR + e.getMessage());
+				DBUtils.closeQueries(stmt, resultSet);
 				return;
 			}
 			
@@ -194,6 +196,8 @@ public class DB2UDBDBCheck implements DBCheck {
 			{
 				executedChecks.add(Constants.TEST_FAILURE+this.value + " - "+ Constants.DB2_UDB);
 			}
+			
+			DBUtils.closeQueries(stmt, resultSet);
 		}
 		
 	}

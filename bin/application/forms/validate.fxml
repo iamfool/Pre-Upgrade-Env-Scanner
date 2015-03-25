@@ -1,32 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TitledPane animated="false" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="552.0" prefWidth="682.0" text="Environment Scanner" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ValidateController">
+<TitledPane animated="false" collapsible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Environment Scanner" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.controller.ValidateController">
   <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="472.0" prefWidth="680.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0">
          <children>
             <Button fx:id="backButton" layoutX="572.0" layoutY="351.0" mnemonicParsing="false" onAction="#handleBackButtonAction" text="Reset" />
-            <ListView fx:id="checklistview" editable="true" layoutX="9.0" layoutY="34.0" prefHeight="150.0" prefWidth="660.0" />
-            <Button fx:id="checkButton" layoutX="312.0" layoutY="351.0" mnemonicParsing="false" onAction="#handleCheckButtonAction" text="Check" />
+            <ListView fx:id="checklistview" editable="true" layoutX="7.0" layoutY="34.0" prefHeight="150.0" prefWidth="662.0" />
+            <Button fx:id="checkButton" layoutX="281.0" layoutY="351.0" mnemonicParsing="false" onAction="#handleCheckButtonAction" prefHeight="25.0" prefWidth="114.0" text="Check" />
             <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" text="Environment Checks ">
                <font>
                   <Font name="System Bold Italic" size="14.0" />
                </font>
             </Label>
-            <Hyperlink fx:id="pdnlink" layoutX="269.0" layoutY="504.0" onAction="#handleLinkAction" text="PDN Platform support guide">
+            <Hyperlink fx:id="pdnlink" layoutX="151.0" layoutY="14.0" onAction="#handleLinkAction" text="Refer PDN Platform support guide">
                <font>
                   <Font name="System Bold Italic" size="10.0" />
                </font>
             </Hyperlink>
-            <Label layoutX="25.0" layoutY="442.0" prefHeight="46.0" prefWidth="641.0" text="Versions supported are liable to change.Refer platform support guide for latest update and special considerations for some operating system/application server versions" wrapText="true" />
-            <Label fx:id="forPRPCVersionText" layoutX="13.0" layoutY="363.0" />
-            <TextArea fx:id="errortext" editable="false" layoutX="8.0" layoutY="386.0" prefHeight="44.0" prefWidth="656.0" />
-            <ListView fx:id="customizationview" editable="true" layoutX="13.0" layoutY="214.0" prefHeight="120.0" prefWidth="306.0" />
+            <Label fx:id="forPRPCVersionText" layoutX="321.0" layoutY="16.0" prefHeight="17.0" prefWidth="347.0" />
+            <ListView fx:id="customizationview" editable="true" layoutX="9.0" layoutY="214.0" prefHeight="120.0" prefWidth="306.0" />
             <ListView fx:id="resultview" editable="true" layoutX="363.0" layoutY="214.0" prefHeight="120.0" prefWidth="306.0" />
             <Label alignment="CENTER" layoutX="14.0" layoutY="188.0" text="Schema Checks">
                <font>
@@ -38,6 +37,8 @@
                   <Font name="System Bold Italic" size="14.0" />
                </font>
             </Label>
+            <Label fx:id="errortext" layoutX="9.0" layoutY="385.0" prefHeight="17.0" prefWidth="680.0" />
+            <Hyperlink fx:id="exportexcel" layoutX="276.0" layoutY="382.0" onAction="#handleExportToExcelAction" text="Export results to excel" />
          </children></AnchorPane>
   </content>
 </TitledPane>
