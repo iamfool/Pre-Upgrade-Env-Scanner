@@ -42,7 +42,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label alignment="BASELINE_RIGHT" text="Beta_v1.0.2_7.1.7" GridPane.rowIndex="20">
+                        <Label alignment="BASELINE_RIGHT" text="Beta_v1.0.3" GridPane.rowIndex="20">
                            <opaqueInsets>
                               <Insets top="100.0" />
                            </opaqueInsets>

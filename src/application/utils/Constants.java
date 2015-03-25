@@ -20,6 +20,7 @@ public final class Constants
 	public static final String DB2_ZOS = "DB2-ZOS";
 	public static final String POSTGRE = "Postgre SQL";
 	public static final String EMPTY = "";
+	public static final String HYPHEN = " - ";
 	public static final String SUBMIT_ERROR = "Connection failed - Required value(s) are empty";
 	public static final String CONNECTION_ERROR = "Connection Error";
 	public static final String CONNECTION_SUCCESS = "Connecion status : Success";
@@ -34,6 +35,10 @@ public final class Constants
 	public static final String RESOURCEKIT_DIRECTORY_NAME = "ResourceKit";
 	public static final String ML_SETUP_JAR  = "ML_Setup.jar";
 	public static final String JAR_PATH = "\\archives\\udf\\prmaster-schema.jar";
+	public static final String MASTER_XML_FILENAME = "pegarules-master.xml";
+	public static final String ASSEMBLY_FILE = "//manifest//assembly.included.properties";
+	public static final String FOR_VERSION = "For PRPC Version : ";
+	public static final String RE_CHECK = "Re-Check";
 	
 	
 
@@ -77,5 +82,8 @@ public final class Constants
 	public static final String ORACLE_CREATE_VIEW_PROCEDURE_PRIVILEGE ="User MUST have Create View and Create Procedure privileges in database";
 	public static final String ORACLE_TABLESPACE ="User has unlimited tablespace in database";
 	public static final String PDN_PLATFORM_LINK = "https://pdn.pega.com/documents/platform-support-guide";
+	
+	
+	
 	
 }

@@ -3,7 +3,10 @@
  */
 package application.controller;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import application.AppServerCheck;
@@ -48,6 +52,7 @@ public class ValidateController implements Initializable
    @FXML Button checkButton;
    @FXML Hyperlink pdnlink;
    @FXML TextArea errortext;
+   @FXML Label forPRPCVersionText;
    private DBCheck check;
    private ObservableList checkList = FXCollections.observableArrayList();
    private ObservableList resultSetList = FXCollections.observableArrayList();
@@ -104,8 +109,8 @@ public class ValidateController implements Initializable
 	private void renderCheckList (String dbType) 
 	{
 		// add supported OS and APP server checks
-		checkList.add(Constants.OS_CHECK + " - "+ rootControl.getOsChoice());
-		checkList.add(Constants.APP_SERVER_CHECK + " - "+ rootControl.getAppServerChoice());
+		checkList.add(Constants.OS_CHECK + Constants.HYPHEN + rootControl.getOsChoice());
+		checkList.add(Constants.APP_SERVER_CHECK + Constants.HYPHEN + rootControl.getAppServerChoice());
 		
 		//add ml or updgrade build check
 		checkList.add(Constants.UPGRADE_BUILD_CHECK);
@@ -125,8 +130,8 @@ public class ValidateController implements Initializable
 	{
 		if(check != null)
 		{
-			checkButton.setText("checking...");
 			checkButton.setDisable(true);
+			errortext.setVisible(false);
 
 			// clear checklist
 			if(checkList.size()>0)
@@ -140,7 +145,17 @@ public class ValidateController implements Initializable
 			checkandSetOSandAPPServer(checkedList);
 			
 			//check whether build is not ML build
-			checkIfNotMLBuild(checkedList);
+			try
+			{
+				checkIfNotMLBuild(checkedList);
+			}
+			catch(Exception e)
+			{
+				errortext.setText(Constants.TEST_ERROR+e.getMessage());
+				errortext.setVisible(true);
+				
+			}
+			
 			
 			//execute DB checks and set result to listview
 			checkedList.addAll(check.executeChecks(rootControl.fetchMetaData()));
@@ -150,7 +165,7 @@ public class ValidateController implements Initializable
 			checkForSchemaCustomizations(checkedList,rootControl.fetchMetaData());
 			
 			checkButton.setDisable(false);
-			checkButton.setText("Re-Check");
+			checkButton.setText(Constants.RE_CHECK);
 			
 			
 		}
@@ -177,23 +192,37 @@ public class ValidateController implements Initializable
 
 	/**
 	 * @param checkedList
+	 * @throws IOException 
 	 */
 	@SuppressWarnings("unchecked")
-	private void checkIfNotMLBuild(ObservableList checkedList) 
+	private void checkIfNotMLBuild(ObservableList checkedList) throws IOException 
 	{
 		String folderPath = rootControl.getFolderPath();
 		boolean checkForPRPCSetup = false;
 		boolean checkForResourceKitFolder = false;
 		boolean checkForMLBuild = false;
+		File assemblyFile = null;
 		if(!Utilities.isEmpty(folderPath))
 		{
 			checkForPRPCSetup = new File(folderPath, Constants.PRPC_SETUP_JAR).exists();
 			checkForResourceKitFolder = new File(folderPath, Constants.RESOURCEKIT_DIRECTORY_NAME).exists();
 			checkForMLBuild = new File(folderPath,Constants.ML_SETUP_JAR).exists();
+			assemblyFile = new File(folderPath+Constants.ASSEMBLY_FILE);
+			BufferedReader bufferRead = new BufferedReader(new FileReader(assemblyFile));
+		    String prpcBuild = "";
+			while((prpcBuild  = bufferRead.readLine())!=null)
+		    {
+		    	if(!Utilities.isEmpty(prpcBuild))
+		    	{
+		    		forPRPCVersionText.setText(Constants.FOR_VERSION+prpcBuild.substring(30));
+		    		break;
+		    	}
+		    }
+		    bufferRead.close();
 		}
 		else 
 		{
-			checkedList.add(Constants.TEST_ERROR+Constants.UPGRADE_BUILD_CHECK + " - "+ Constants.INSTALL_MEDIA_NOT_AVAILABLE);
+			checkedList.add(Constants.TEST_ERROR+Constants.UPGRADE_BUILD_CHECK + Constants.HYPHEN + Constants.INSTALL_MEDIA_NOT_AVAILABLE);
 			return;
 		}
 		
@@ -204,11 +233,11 @@ public class ValidateController implements Initializable
 		}
 		else if(checkForMLBuild)
 		{
-			checkedList.add(Constants.TEST_FAILURE+Constants.UPGRADE_BUILD_CHECK+ " - "+ Constants.ML_BUILD_ALERT );
+			checkedList.add(Constants.TEST_FAILURE+Constants.UPGRADE_BUILD_CHECK+ Constants.HYPHEN + Constants.ML_BUILD_ALERT );
 		}
 		else 
 		{
-			checkedList.add(Constants.TEST_FAILURE+Constants.UPGRADE_BUILD_CHECK + " - " + Constants.UPGRADE_BUILD_NOT_AVAILABLE);
+			checkedList.add(Constants.TEST_FAILURE+Constants.UPGRADE_BUILD_CHECK + Constants.HYPHEN + Constants.UPGRADE_BUILD_NOT_AVAILABLE);
 		}
 	}
 
@@ -223,21 +252,21 @@ public class ValidateController implements Initializable
 		VERSIONS OSVer = OSCheck.VERSIONS.getVersionForValue(rootControl.getOsChoice());
 		if(OSVer.isSupported())
 		{
-			checkedList.add(Constants.TEST_SUCCESS+Constants.OS_CHECK + " - "+ rootControl.getOsChoice());
+			checkedList.add(Constants.TEST_SUCCESS+Constants.OS_CHECK + Constants.HYPHEN+ rootControl.getOsChoice());
 		}
 		else
 		{
-			checkedList.add(Constants.TEST_FAILURE+Constants.OS_CHECK + " - "+ rootControl.getOsChoice());
+			checkedList.add(Constants.TEST_FAILURE+Constants.OS_CHECK + Constants.HYPHEN+ rootControl.getOsChoice());
 		}
 		
 		APPVERSIONS appVer = AppServerCheck.APPVERSIONS.getVersionForValue(rootControl.getAppServerChoice());
 		if(appVer.isSupported())
 		{
-			checkedList.add(Constants.TEST_SUCCESS+Constants.APP_SERVER_CHECK + " - "+ rootControl.getAppServerChoice());
+			checkedList.add(Constants.TEST_SUCCESS+Constants.APP_SERVER_CHECK + Constants.HYPHEN + rootControl.getAppServerChoice());
 		}
 		else
 		{
-			checkedList.add(Constants.TEST_FAILURE+Constants.APP_SERVER_CHECK + " - "+ rootControl.getAppServerChoice());
+			checkedList.add(Constants.TEST_FAILURE+Constants.APP_SERVER_CHECK + Constants.HYPHEN + rootControl.getAppServerChoice());
 		}
 		
 	}

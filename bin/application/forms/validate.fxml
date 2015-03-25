@@ -24,7 +24,7 @@
                </font>
             </Hyperlink>
             <Label layoutX="25.0" layoutY="442.0" prefHeight="46.0" prefWidth="641.0" text="Versions supported are liable to change.Refer platform support guide for latest update and special considerations for some operating system/application server versions" wrapText="true" />
-            <Label layoutX="13.0" layoutY="363.0" text="For PRPC Version: 7.1.7" />
+            <Label fx:id="forPRPCVersionText" layoutX="13.0" layoutY="363.0" />
             <TextArea fx:id="errortext" editable="false" layoutX="8.0" layoutY="386.0" prefHeight="44.0" prefWidth="656.0" />
             <ListView fx:id="customizationview" editable="true" layoutX="13.0" layoutY="214.0" prefHeight="120.0" prefWidth="306.0" />
             <ListView fx:id="resultview" editable="true" layoutX="363.0" layoutY="214.0" prefHeight="120.0" prefWidth="306.0" />

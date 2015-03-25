@@ -9,9 +9,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import application.SchemaCustomizationCheck.CUSTOMIZATIONLISTS;
+import application.database.Column;
 import application.database.Database;
+import application.database.Index;
 import application.database.Table;
 import application.utils.DBUtils;
+import application.utils.Utilities;
 
 /**
  * @author ramas6
@@ -29,6 +32,7 @@ public final class OracleCustomizationCheck
 	 */
 	public static void executeChecks(CUSTOMIZATIONLISTS custom, DBMetaData metaData, Database database,HashMap<CUSTOMIZATIONLISTS, ArrayList<String>> resultMap) 
 	{
+		//TODO: move strings to constants
 		Statement stmt = null;
 		ResultSet resultSet = null;
 		// find all new tables
@@ -42,15 +46,13 @@ public final class OracleCustomizationCheck
 		{
 			switch(custom)
 			{
-				case CUSTOMIZED_COLUMNS:
-					break;
 				case ALTERED_TABLES:
-					break;
 				case NEW_TABLES:
 					stmt = metaData.getConnection().createStatement();
 					resultSet = stmt.executeQuery(listTablesQuery);
 					ArrayList<String> tableNameList = new ArrayList<String>();
 					ArrayList<String> newTableList = new ArrayList<String>();
+					ArrayList<String> alterList = new ArrayList<String>();
 					int count = 0;
 					while(resultSet.next())
 					{
@@ -60,14 +62,97 @@ public final class OracleCustomizationCheck
 					for(Table table : database.getTables())
 					{
 						String tableName = table.getName();
-						if(!tableNameList.contains(tableName.toUpperCase()))
+					
+						if(tableNameList.contains(tableName.toUpperCase()))
+						{
+							String tableColumnQuery = "select COLUMN_NAME,DATA_PRECISION,NULLABLE,DATA_TYPE,DATA_SCALE from ALL_TAB_COLUMNS WHERE TABLE_NAME= '"+tableName.toUpperCase()+"'";
+							String tableIndexQuery = "select INDEX_NAME from ALL_INDEXES where TABLE_NAME='"+tableName.toUpperCase()+"'";
+							String tableTriggerQuery = "select TRIGGER_NAME from ALL_TRIGGERS where TABLE_NAME='"+tableName.toUpperCase()+"'";;
+							Statement tableColumnStmt = metaData.getConnection().createStatement();
+							Statement tableIndexStmt =  metaData.getConnection().createStatement();
+							Statement tableTriggerStmt = metaData.getConnection().createStatement();
+							ResultSet tableColumnResultSet = tableColumnStmt.executeQuery(tableColumnQuery);
+							ResultSet tableIndexResultSet = tableIndexStmt.executeQuery(tableIndexQuery);
+							ResultSet tableTrgrResultSet = tableTriggerStmt.executeQuery(tableTriggerQuery);
+							ArrayList<Column> dbColumns = new ArrayList<Column>();
+							ArrayList<String> dbIndexes = new ArrayList<String>();
+							ArrayList<String> dbTriggers = new ArrayList<String>();
+							while(tableColumnResultSet.next())
+							{
+								Column column = new Column();
+								column.setName(tableColumnResultSet.getString("COLUMN_NAME"));
+								column.setRequired(tableColumnResultSet.getString("NULLABLE"));
+								
+								column.setType(getDBColumnType(tableColumnResultSet.getString("DATA_TYPE")));
+								column.setSize(tableColumnResultSet.getString("DATA_PRECISION"));
+								column.setScale(tableColumnResultSet.getString("DATA_SCALE"));
+								dbColumns.add(column);
+							}
+							while(tableIndexResultSet.next())
+							{
+								dbIndexes.add(tableIndexResultSet.getString("INDEX_NAME"));
+							}
+							while(tableTrgrResultSet.next())
+							{
+								dbTriggers.add(tableTrgrResultSet.getString("TRIGGER_NAME"));
+							}
+							for(Column column: table.getColumns())
+							{
+								boolean columnFound = false;
+								for(Column dbcolumn : dbColumns)
+								{
+									// if column exists in db check for other params. alter if size/type didnt match
+									if(dbcolumn.getName().equalsIgnoreCase(column.getName()))
+									{
+										columnFound =true;
+										boolean sizeMatch=true;
+										if(!Utilities.isEmpty(column.getSize()) && !Utilities.isEmpty(dbcolumn.getSize())) sizeMatch = dbcolumn.getSize().equals(column.getSize());
+										if(!sizeMatch)
+										{
+											alterList.add("Alter Table :"+tableName+ " for size mismatch in column : "+ column.getName());
+											break;
+										}
+										if(!Utilities.isEmpty(dbcolumn.getType()) && (!dbcolumn.getType().equals("NUMBER")) && !dbcolumn.getType().equalsIgnoreCase(column.getType()))
+										{
+											alterList.add("Alter Table :"+tableName+ " for change in column type : "+ column.getName() + " to type : "+ column.getType());
+											break;
+										}
+									}
+									
+								}
+								if(!column.getFilter().equals("MT") && !columnFound)
+								{
+									alterList.add("Alter Table :"+tableName+ " for new column : "+ column.getName());
+								}
+							}
+							for(Index index : table.getIndexes())
+							{
+								if(!dbIndexes.contains(index.getName().toUpperCase()))
+								{
+									alterList.add("Alter Table :"+tableName+ " for new index : "+ index.getName());
+								}
+							}
+							for(String trigger : table.getTriggers())
+							{
+								if(!dbTriggers.contains(trigger.toUpperCase()))
+								{
+									alterList.add("Alter Table :"+tableName+ " for new trigger : "+ trigger);
+								}
+							}
+							DBUtils.closeQueries(tableColumnStmt, tableColumnResultSet);
+							DBUtils.closeQueries(tableIndexStmt, tableIndexResultSet);
+							DBUtils.closeQueries(tableTriggerStmt, tableTrgrResultSet);
+						}
+						else
 						{
 							count++;
 							newTableList.add("Table Name : "+ tableName + " Schema Type : "+ table.getSchemaType());
 						}
+						
 					}
 					newTableList.add(0, "Count = "+ count);
 					resultMap.put(CUSTOMIZATIONLISTS.NEW_TABLES, newTableList);
+					resultMap.put(CUSTOMIZATIONLISTS.ALTERED_TABLES, alterList);
 					break;
 				case NEW_SPS:
 					stmt = metaData.getConnection().createStatement();
@@ -134,4 +219,16 @@ public final class OracleCustomizationCheck
 		
 	}
 	
+	private static String getDBColumnType(String dbColumn)
+	{
+		if(dbColumn.equals("DATE"))
+		{
+			return "timestamp";
+		}
+		if(dbColumn.contains("VARCHAR"))
+		{
+			return "varchar";
+		}
+	return dbColumn;
+	}
 }

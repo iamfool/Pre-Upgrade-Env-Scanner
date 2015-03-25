@@ -4,6 +4,7 @@
 package application;
 
 
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
@@ -25,6 +26,8 @@ import org.xml.sax.InputSource;
 
 import application.database.Column;
 import application.database.Database;
+import application.database.Index;
+import application.database.IndexColumn;
 import application.database.Table;
 import application.utils.Constants;
 
@@ -58,19 +61,19 @@ public final class SchemaCustomizationCheck
 	{
 		HashMap<CUSTOMIZATIONLISTS,ArrayList<String>> resultMap = new HashMap<CUSTOMIZATIONLISTS,ArrayList<String>>();
 		Database database = createDBObjectFromXML(folderPath);
+		//trigger db specific checks
 		if(metaData.getDbType().equals(Constants.DB2_UDB))
 		{
 			for(CUSTOMIZATIONLISTS custom : CUSTOMIZATIONLISTS.values())
 			{
-				DB2UDBCustomizationCheck.executeChecks(custom,metaData,database,resultMap);
+				if(!custom.equals(CUSTOMIZATIONLISTS.NEW_TABLES))DB2UDBCustomizationCheck.executeChecks(custom,metaData,database,resultMap);
 			}
 		}
 		else if(metaData.getDbType().equals(Constants.ORACLE))
 		{
-			//call oracle checks
 			for(CUSTOMIZATIONLISTS custom : CUSTOMIZATIONLISTS.values())
 			{
-				OracleCustomizationCheck.executeChecks(custom,metaData,database,resultMap);
+				if(!custom.equals(CUSTOMIZATIONLISTS.NEW_TABLES))OracleCustomizationCheck.executeChecks(custom,metaData,database,resultMap);
 			}
 			
 		}
@@ -89,7 +92,7 @@ public final class SchemaCustomizationCheck
 		        while (entries.hasMoreElements()) 
 		        {
 		            final JarEntry entry = entries.nextElement();
-		            if (entry.getName().contains("pegarules-master.xml")) 
+		            if (entry.getName().contains(Constants.MASTER_XML_FILENAME)) 
 		            {
 		            	JarEntry fileEntry = masterJar.getJarEntry(entry.getName());
 		                InputStream input = masterJar.getInputStream(fileEntry);
@@ -110,6 +113,7 @@ public final class SchemaCustomizationCheck
 	                    NodeList childNodes = databaseNode.getChildNodes();
 	                   for (int i = 0; i < childNodes.getLength(); i++) 
 	                   {
+	                	  // iterate thru tables 
 	                      if(childNodes.item(i).getNodeName().equals("tables"))
 	                      {
 	                    	  NodeList tableNodes = childNodes.item(i).getChildNodes();
@@ -149,7 +153,44 @@ public final class SchemaCustomizationCheck
 	                    				  }
 	                    				  if(tableData.item(tabData).getNodeName().equals("indexes"))
 	                    				  {
-	                    					  // TODO: fill indexes  
+	                    					  //fill indexes
+	                    					  NodeList indexList = tableData.item(tabData).getChildNodes();
+	                    					  for(int indexData=0; indexData<indexList.getLength();indexData++)
+	                    					  {
+	                    						  if(indexList.item(indexData).getNodeType()==Node.ELEMENT_NODE)
+	                    						  {
+	                    							  Element indexElement = (Element)indexList.item(indexData);
+	                    							  Index index = new Index();
+	                    							  index.setName(indexElement.getAttribute("name"));
+	                    							  
+	                    							  NodeList indexColumnList = indexList.item(indexData).getChildNodes();
+	                    							  for(int indexColumns=0;indexColumns<indexColumnList.getLength();indexColumns++)
+	                    							  {
+	                    								  if(indexColumnList.item(indexColumns).getNodeType() == Node.ELEMENT_NODE)
+	                    								  {
+	                    									  Element indexColumnElement = (Element)indexColumnList.item(indexColumns);
+	    	                    							  IndexColumn indexColumn = new IndexColumn();
+	    	                    							  indexColumn.setName(indexColumnElement.getAttribute("name"));
+	    	                    							  indexColumn.setFilter(indexColumnElement.getAttribute("filter"));
+	    	                    							  index.getIndexColumn().add(indexColumn);
+	                    								  }
+	                    							  }
+	                    							  table.getIndexes().add(index);
+	                    						  }
+	                    					  }
+	                    				  }
+	                    				  if(tableData.item(tabData).getNodeName().equals("triggers"))
+	                    				  {
+	                    					  //fill triggers
+	                    					  NodeList triggerList = tableData.item(tabData).getChildNodes();
+	                    					  for(int trgrGrp = 0;trgrGrp<triggerList.getLength();trgrGrp++)
+	                    					  {
+	                    						  if(triggerList.item(trgrGrp).getNodeType()==Node.ELEMENT_NODE)
+	                    						  {
+	                    							  Element trgrElement = (Element)triggerList.item(trgrGrp);
+	                    							  table.getTriggers().add(trgrElement.getAttribute("name"));
+	                    						  }
+	                    					  }
 	                    				  }
 	                    			  }
 	                    			  database.getTables().add(table);  
@@ -158,6 +199,7 @@ public final class SchemaCustomizationCheck
 	                      }
 	                      if(childNodes.item(i).getNodeName().equals("views"))
 	                      {
+	                    	  //fill views
 	                    	  NodeList viewNodes = childNodes.item(i).getChildNodes();
 	                    	  for(int viewCount = 0; viewCount < viewNodes.getLength();viewCount++)
 	                    	  {
@@ -170,6 +212,7 @@ public final class SchemaCustomizationCheck
 	                      }
 	                      if(childNodes.item(i).getNodeName().equals("routines"))
 	                      {
+	                    	  //fill sps
 	                    	  NodeList routineNodes = childNodes.item(i).getChildNodes();
 	                    	  for(int routineCount = 0; routineCount < routineNodes.getLength();routineCount++)
 	                    	  {
@@ -178,6 +221,7 @@ public final class SchemaCustomizationCheck
 	                    			  Element routineElement = (Element)routineNodes.item(routineCount);
 	                    			  if(routineElement.getAttribute("filter").equals("udf"))
 	                    			  {
+	                    				  // if udf append flag
 	                    				  database.getRoutines().add(routineElement.getAttribute("name")+"_UDF");
 	                    			  }
 	                    			  else
@@ -216,7 +260,6 @@ public final class SchemaCustomizationCheck
 	
 	public static enum CUSTOMIZATIONLISTS
 	{
-		CUSTOMIZED_COLUMNS("Customized columns in existing rule tables"),
 		ALTERED_TABLES("Tables to be altered during upgrade"),
 		NEW_TABLES("Tables to be introduced during upgrade"),
 		NEW_SPS("Stored procedures to be introduced during upgrade"),
