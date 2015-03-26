@@ -5,6 +5,7 @@ package application.controller;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
@@ -12,6 +13,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -62,6 +68,7 @@ public class ValidateController implements Initializable
    private boolean buildSuccess = false;
    private HashMap<CUSTOMIZATIONLISTS, ArrayList<String>> resultMap = null;
    ArrayList<String> resultList = null;
+   Workbook excelReport = null;
    
    
 	/* (non-Javadoc)
@@ -128,6 +135,7 @@ public class ValidateController implements Initializable
 	@SuppressWarnings("unchecked")
 	@FXML protected void handleCheckButtonAction(ActionEvent event)   
 	{
+		excelReport = new HSSFWorkbook();
 		if(check != null)
 		{
 			checkButton.setDisable(true);
@@ -161,8 +169,17 @@ public class ValidateController implements Initializable
 			checkedList.addAll(check.executeChecks(rootControl.fetchMetaData()));
 			checklistview.setItems(checkedList);
 			
+			// fill excel report for environment checks
+			Sheet envSheet = excelReport.createSheet("Environment Checks");
+			for(int i=0;i<checkedList.size();i++)
+			{
+				Row row = envSheet.createRow(i);
+				row.createCell(1).setCellValue(new HSSFRichTextString(checkedList.get(i).toString()));
+			}
+			
+			
 			//execute schema customization checks
-			checkForSchemaCustomizations(checkedList,rootControl.fetchMetaData());
+			checkForSchemaCustomizations(rootControl.fetchMetaData());
 			
 			checkButton.setDisable(false);
 			checkButton.setText(Constants.RE_CHECK);
@@ -184,7 +201,7 @@ public class ValidateController implements Initializable
 	 * @param checkedList
 	 * @param fetchMetaData
 	 */
-	private void checkForSchemaCustomizations(ObservableList checkedList,DBMetaData metaData) 
+	private void checkForSchemaCustomizations(DBMetaData metaData) 
 	{
 		if(buildSuccess)
 		{
@@ -213,7 +230,7 @@ public class ValidateController implements Initializable
 			checkForMLBuild = new File(folderPath,Constants.ML_SETUP_JAR).exists();
 			assemblyFile = new File(folderPath+Constants.ASSEMBLY_FILE);
 			BufferedReader bufferRead = new BufferedReader(new FileReader(assemblyFile));
-		    String prpcBuild = "";
+		    String prpcBuild ;
 			while((prpcBuild  = bufferRead.readLine())!=null)
 		    {
 		    	if(!Utilities.isEmpty(prpcBuild))
@@ -280,10 +297,18 @@ public class ValidateController implements Initializable
 		Navigator.getHost().showDocument(Constants.PDN_PLATFORM_LINK);
 	} 
 	
-	@FXML protected void handleExportToExcelAction(ActionEvent event)
+	@FXML protected void handleExportToExcelAction(ActionEvent event) throws Exception
 	{
-		String fileName = "ENVScannerReport"+System.currentTimeMillis();
-		errortext.setText("Export sucessful.Results exported to "+ rootControl.getFolderPath()+ "File Name: "+ fileName);
-		errortext.setVisible(true);
+		String fileName = Constants.ENV_REPORT_NAME+System.currentTimeMillis()+Constants.ENV_REPORT_EXTN;
+		if(excelReport != null)
+		{
+			FileOutputStream fileOut = new FileOutputStream(rootControl.getFolderPath()+"//"+fileName);
+			excelReport.write(fileOut);
+		    fileOut.close();
+		    excelReport.close();
+			errortext.setText(Constants.EXPORT_SUCCESS+ rootControl.getFolderPath()+ Constants.FILENAME+ fileName);
+			errortext.setVisible(true);
+		}
+		
 	} 
 }

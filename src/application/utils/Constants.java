@@ -39,6 +39,10 @@ public final class Constants
 	public static final String ASSEMBLY_FILE = "//manifest//assembly.included.properties";
 	public static final String FOR_VERSION = "For PRPC Version : ";
 	public static final String RE_CHECK = "Re-Check";
+	public static final String ENV_REPORT_NAME="ENVScannerReport";
+	public static final String ENV_REPORT_EXTN=".xls";
+	public static final String EXPORT_SUCCESS="Export sucessful.Results exported to ";
+	public static final String FILENAME = "File Name: ";
 	
 	
 

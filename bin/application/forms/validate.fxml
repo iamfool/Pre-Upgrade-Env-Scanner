@@ -37,7 +37,7 @@
                   <Font name="System Bold Italic" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="errortext" layoutX="9.0" layoutY="385.0" prefHeight="17.0" prefWidth="680.0" />
+            <Label fx:id="errortext" layoutX="15.0" layoutY="411.0" prefHeight="17.0" prefWidth="680.0" />
             <Hyperlink fx:id="exportexcel" layoutX="276.0" layoutY="382.0" onAction="#handleExportToExcelAction" text="Export results to excel" />
          </children></AnchorPane>
   </content>
