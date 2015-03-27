@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
-import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -174,7 +173,7 @@ public class ValidateController implements Initializable
 			for(int i=0;i<checkedList.size();i++)
 			{
 				Row row = envSheet.createRow(i);
-				row.createCell(1).setCellValue(new HSSFRichTextString(checkedList.get(i).toString()));
+				row.createCell(1).setCellValue(checkedList.get(i).toString());
 			}
 			
 			
@@ -205,7 +204,7 @@ public class ValidateController implements Initializable
 	{
 		if(buildSuccess)
 		{
-			resultMap = SchemaCustomizationCheck.executeChecks(metaData,rootControl.getFolderPath());
+			resultMap = SchemaCustomizationCheck.executeChecks(excelReport,metaData,rootControl.getFolderPath());
 		}
 		
 	}

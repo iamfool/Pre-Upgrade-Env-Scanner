@@ -17,6 +17,7 @@ import java.util.jar.JarFile;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.poi.ss.usermodel.Workbook;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -57,7 +58,7 @@ public final class SchemaCustomizationCheck
 	}
 	
 	
-	public static HashMap<CUSTOMIZATIONLISTS,ArrayList<String>> executeChecks(DBMetaData metaData, String folderPath)
+	public static HashMap<CUSTOMIZATIONLISTS,ArrayList<String>> executeChecks(Workbook excelReport, DBMetaData metaData, String folderPath)
 	{
 		HashMap<CUSTOMIZATIONLISTS,ArrayList<String>> resultMap = new HashMap<CUSTOMIZATIONLISTS,ArrayList<String>>();
 		Database database = createDBObjectFromXML(folderPath);
@@ -66,14 +67,14 @@ public final class SchemaCustomizationCheck
 		{
 			for(CUSTOMIZATIONLISTS custom : CUSTOMIZATIONLISTS.values())
 			{
-				if(!custom.equals(CUSTOMIZATIONLISTS.NEW_TABLES))DB2UDBCustomizationCheck.executeChecks(custom,metaData,database,resultMap);
+				if(!custom.equals(CUSTOMIZATIONLISTS.NEW_TABLES))DB2UDBCustomizationCheck.executeChecks(custom,metaData,database,resultMap,excelReport);
 			}
 		}
 		else if(metaData.getDbType().equals(Constants.ORACLE))
 		{
 			for(CUSTOMIZATIONLISTS custom : CUSTOMIZATIONLISTS.values())
 			{
-				if(!custom.equals(CUSTOMIZATIONLISTS.NEW_TABLES))OracleCustomizationCheck.executeChecks(custom,metaData,database,resultMap);
+				if(!custom.equals(CUSTOMIZATIONLISTS.NEW_TABLES))OracleCustomizationCheck.executeChecks(custom,metaData,database,resultMap,excelReport);
 			}
 			
 		}

@@ -8,6 +8,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
 import application.SchemaCustomizationCheck.CUSTOMIZATIONLISTS;
 import application.database.Column;
 import application.database.Database;
@@ -28,8 +32,9 @@ public final class DB2UDBCustomizationCheck
 	 * @param metaData
 	 * @param database
 	 * @param resultMap
+	 * @param excelReport 
 	 */
-	public static void executeChecks(CUSTOMIZATIONLISTS custom, DBMetaData metaData, Database database,HashMap<CUSTOMIZATIONLISTS, ArrayList<String>> resultMap) 
+	public static void executeChecks(CUSTOMIZATIONLISTS custom, DBMetaData metaData, Database database,HashMap<CUSTOMIZATIONLISTS, ArrayList<String>> resultMap, Workbook excelReport) 
 	{
 		//TODO: move strings to constants
 		Statement stmt = null;
@@ -54,6 +59,18 @@ public final class DB2UDBCustomizationCheck
 				case NEW_TABLES:
 					stmt = metaData.getConnection().createStatement();
 					resultSet = stmt.executeQuery(listTablesQuery);
+					int tableAlteredCount= 0;
+					Sheet alteredTableSheet = excelReport.createSheet("Altered tables");
+					Sheet newTableSheet = excelReport.createSheet("New tables");
+					Row topRowAlterTable = alteredTableSheet.createRow(0);
+					Row topRowNewTable = newTableSheet.createRow(0);
+					topRowNewTable.createCell(0).setCellValue("Table Name");
+					topRowNewTable.createCell(1).setCellValue("Schema Type");
+					topRowAlterTable.createCell(0).setCellValue("Table Name");
+					topRowAlterTable.createCell(1).setCellValue("Object Name");
+					topRowAlterTable.createCell(2).setCellValue("Object Type");
+					topRowAlterTable.createCell(3).setCellValue("Action");
+					
 					ArrayList<String> tableNameList = new ArrayList<String>();
 					ArrayList<String> newTableList = new ArrayList<String>();
 					ArrayList<String> alterList = new ArrayList<String>();
@@ -112,11 +129,23 @@ public final class DB2UDBCustomizationCheck
 										if(!sizeMatch)
 										{
 											alterList.add("Alter Table :"+tableName+ " for size mismatch in column : "+ column.getName());
+											tableAlteredCount++;
+											Row alterRow = alteredTableSheet.createRow(tableAlteredCount);
+											alterRow.createCell(0).setCellValue(tableName);
+											alterRow.createCell(1).setCellValue(column.getName());
+											alterRow.createCell(2).setCellValue("column");
+											alterRow.createCell(3).setCellValue("size mismatch");
 											break;
 										}
 										if(!Utilities.isEmpty(dbcolumn.getType())  && !dbcolumn.getType().equalsIgnoreCase(column.getType()))
 										{
 											alterList.add("Alter Table :"+tableName+ " for change in column type : "+ column.getName() + " to type : "+ column.getType());
+											tableAlteredCount++;
+											Row alterRow = alteredTableSheet.createRow(tableAlteredCount);
+											alterRow.createCell(0).setCellValue(tableName);
+											alterRow.createCell(1).setCellValue(column.getName());
+											alterRow.createCell(2).setCellValue("column");
+											alterRow.createCell(3).setCellValue("change in type");
 											break;
 										}
 									}
@@ -125,6 +154,12 @@ public final class DB2UDBCustomizationCheck
 								if(!column.getFilter().equals("MT") && !columnFound)
 								{
 									alterList.add("Alter Table :"+tableName+ " for new column : "+ column.getName());
+									tableAlteredCount++;
+									Row alterRow = alteredTableSheet.createRow(tableAlteredCount);
+									alterRow.createCell(0).setCellValue(tableName);
+									alterRow.createCell(1).setCellValue(column.getName());
+									alterRow.createCell(2).setCellValue("column");
+									alterRow.createCell(3).setCellValue("new column");
 								}
 							}
 							for(Index index : table.getIndexes())
@@ -132,6 +167,12 @@ public final class DB2UDBCustomizationCheck
 								if(!dbIndexes.contains(index.getName().toUpperCase()))
 								{
 									alterList.add("Alter Table :"+tableName+ " for new index : "+ index.getName());
+									tableAlteredCount++;
+									Row alterRow = alteredTableSheet.createRow(tableAlteredCount);
+									alterRow.createCell(0).setCellValue(tableName);
+									alterRow.createCell(1).setCellValue(index.getName());
+									alterRow.createCell(2).setCellValue("index");
+									alterRow.createCell(3).setCellValue("new index");
 								}
 							}
 							for(String trigger : table.getTriggers())
@@ -139,6 +180,12 @@ public final class DB2UDBCustomizationCheck
 								if(!dbTriggers.contains(trigger.toUpperCase()))
 								{
 									alterList.add("Alter Table :"+tableName+ " for new trigger : "+ trigger);
+									tableAlteredCount++;
+									Row alterRow = alteredTableSheet.createRow(tableAlteredCount);
+									alterRow.createCell(0).setCellValue(tableName);
+									alterRow.createCell(1).setCellValue(trigger);
+									alterRow.createCell(2).setCellValue("trigger");
+									alterRow.createCell(3).setCellValue("new trigger");
 								}
 							}
 							
@@ -150,6 +197,9 @@ public final class DB2UDBCustomizationCheck
 						{
 							count++;
 							newTableList.add("Table Name : "+ tableName + " Schema Type : "+ table.getSchemaType());
+							Row tableRow = newTableSheet.createRow(count);
+							tableRow.createCell(0).setCellValue(tableName);
+							tableRow.createCell(1).setCellValue(table.getSchemaType());
 						}
 					}
 					newTableList.add(0, "Count = "+ count);
@@ -159,6 +209,12 @@ public final class DB2UDBCustomizationCheck
 				case NEW_SPS:
 					stmt = metaData.getConnection().createStatement();
 					resultSet = stmt.executeQuery(listSPsQuery);
+					
+					Sheet newSPSheet = excelReport.createSheet("New procedures");
+					Row topRowNewSP = newSPSheet.createRow(0);
+					topRowNewSP.createCell(0).setCellValue("Stored Procedure");
+					topRowNewSP.createCell(1).setCellValue("Type");
+					
 					udfStmt = metaData.getConnection().createStatement();
 					udfResultSet = udfStmt.executeQuery(listUDFsQuery);
 					ArrayList<String> SPNameList = new ArrayList<String>();
@@ -166,6 +222,7 @@ public final class DB2UDBCustomizationCheck
 					ArrayList<String> newSPList = new ArrayList<String>();
 					int spCount = 0;
 					int udfCount = 0;
+					int routineCount = 0;
 					while(resultSet.next())
 					{
 						SPNameList.add(resultSet.getString(COLUMN_NAME_SPNAME));
@@ -181,14 +238,22 @@ public final class DB2UDBCustomizationCheck
 							routine = routine.substring(0, routine.length()-4);
 							if(!funcNameList.contains(routine.toUpperCase()))
 							{
+								routineCount++;
 								udfCount++;
 								newSPList.add(routine + " (udf)");
+								Row spRow = newSPSheet.createRow(routineCount);
+								spRow.createCell(0).setCellValue(routine);
+								spRow.createCell(1).setCellValue("Function");
 							}
 						}
 						else if(!SPNameList.contains(routine.toUpperCase()))
 						{
+							routineCount++;
 							spCount++;
 							newSPList.add(routine);
+							Row spRow = newSPSheet.createRow(routineCount);
+							spRow.createCell(0).setCellValue(routine);
+							spRow.createCell(1).setCellValue("Procedure");
 						}
 					}
 					newSPList.add(0,"Count: udf- "+ udfCount + " , stored proc- "+ spCount);
@@ -197,6 +262,11 @@ public final class DB2UDBCustomizationCheck
 				case NEW_VIEWS:
 					stmt = metaData.getConnection().createStatement();
 					resultSet = stmt.executeQuery(listViewsQuery);
+					
+					Sheet newViewSheet = excelReport.createSheet("New Views");
+					Row topRowNewView = newViewSheet.createRow(0);
+					topRowNewView.createCell(0).setCellValue("View");
+					
 					ArrayList<String> viewNameList = new ArrayList<String>();
 					ArrayList<String> newViewList = new ArrayList<String>();
 					int viewCount = 0;
@@ -211,6 +281,7 @@ public final class DB2UDBCustomizationCheck
 						{
 							viewCount++;
 							newViewList.add(view);
+							newViewSheet.createRow(viewCount).createCell(0).setCellValue(view);
 						}
 					}
 					newViewList.add(0,"Count: "+ viewCount);
