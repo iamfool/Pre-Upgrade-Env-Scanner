@@ -44,4 +44,7 @@ Temporary Items
 /bin/
 
 #Build directory
-/build/
+build/*
+
+
+*.class
