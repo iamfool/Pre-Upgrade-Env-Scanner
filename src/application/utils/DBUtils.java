@@ -32,12 +32,13 @@ public final class DBUtils
 			Connection  connection = DriverManager.getConnection(jdbcurl,username,password); 
 			dbConnect.setConnection(connection);
 			dbConnect.setConnSuccess(true);
-			
+			dbConnect.setJDBCUrl(jdbcurl);
 			//set input details
 			dbConnect.setDbType(dbtype);
 			
 			dbConnect.setDataName(dataSchema);
-			dbConnect.setUserName(connection.getMetaData().getUserName());
+			dbConnect.setUserName(username);
+			dbConnect.setPassword(password);
 			
 			
 		} 

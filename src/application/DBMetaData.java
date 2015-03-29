@@ -23,7 +23,7 @@ public class DBMetaData
  private String rulesName;
  private String dataName;
  private String JDBCUrl;
- 
+ private String password;
  /**
  * @return the connection
  */
@@ -159,6 +159,18 @@ public String getJDBCUrl() {
  */
 public void setJDBCUrl(String jDBCUrl) {
 	JDBCUrl = jDBCUrl;
+}
+/**
+ * @return the password
+ */
+public String getPassword() {
+	return password;
+}
+/**
+ * @param password the password to set
+ */
+public void setPassword(String password) {
+	this.password = password;
 }
 
 }

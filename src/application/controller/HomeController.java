@@ -53,28 +53,39 @@ public class HomeController implements Initializable
 	@FXML private Label errorcode;
 	@FXML private Label oraclealert;
 	@FXML private TextArea errortext;
-	
+	LoadController rootControl;
 	 
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initialize(URL location, ResourceBundle resources) 
 	{
-		// initialize OS vendor choice
+		rootControl = Navigator.getFxLoader().getController();
 		oschoice.setItems(FXCollections.observableArrayList(OSCheck.VERSIONS.getAllOS()));
-		oschoice.setValue(OSCheck.VERSIONS.AIX53.getReadableValue());
-		
-		//initialize app server choice
 		appchoice.setItems(FXCollections.observableArrayList(AppServerCheck.APPVERSIONS.getAllAppServers()));
-		appchoice.setValue(AppServerCheck.APPVERSIONS.WAS61.getReadableValue());
-		
-		// initialize db vendor choice
 		dbChoice.setItems(FXCollections.observableArrayList(DBCheck.VENDORS));
-		dbChoice.setValue(Constants.DB2_UDB);
-		url.setText(Constants.DB2_UDB_URL);
+		if(rootControl.isConnected())
+		{
+			oschoice.setValue(rootControl.getOsChoice());
+			appchoice.setValue(rootControl.getAppServerChoice());
+			installPath.setText(rootControl.getFolderPath());
+			DBMetaData metaData = rootControl.fetchMetaData();
+			dbChoice.setValue(metaData.getDbType());
+			url.setText(metaData.getJDBCUrl());
+			uname.setText(metaData.getUserName());
+			pwd.setText(metaData.getPassword());
+			dataSchema.setText(metaData.getDataName());
+		}
+		else
+		{
+			// initialize choices
+			oschoice.setValue(OSCheck.VERSIONS.AIX53.getReadableValue());
+			appchoice.setValue(AppServerCheck.APPVERSIONS.WAS61.getReadableValue());
+			dbChoice.setValue(Constants.DB2_UDB);
+			url.setText(Constants.DB2_UDB_URL);	
+		}
 		oraclealert.setVisible(false);
 		errortext.setVisible(false);
-		
 		// add listener to set url
 		dbChoice.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() 
 		{
@@ -117,9 +128,8 @@ public class HomeController implements Initializable
 			
 			
 			//set details in root controller so it can be accessed everywhere
-			LoadController rootControl = Navigator.getFxLoader().getController();
 			rootControl.holdMetaData(oschoice.getValue().toString(),appchoice.getValue().toString(),connect,installPath.getText());
-			
+			rootControl.setConnected(true);
 			 //load validate pane as connection succeeded 
 			Navigator.loadScreen(Constants.VALIDATE_FXML);      
 	}	

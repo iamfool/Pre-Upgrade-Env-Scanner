@@ -23,7 +23,7 @@ public class LoadController {
 	private String appChoice;
 	@FXML StackPane loader;
 	private String folderPath;
-	
+	private boolean isConnected;
 	
 	
 	public void loadScreen(Node node) 
@@ -57,5 +57,19 @@ public class LoadController {
 	public String getFolderPath()
 	{
 		return this.folderPath;
+	}
+
+	/**
+	 * @return the isConnected
+	 */
+	public boolean isConnected() {
+		return isConnected;
+	}
+
+	/**
+	 * @param isConnected the isConnected to set
+	 */
+	public void setConnected(boolean isConnected) {
+		this.isConnected = isConnected;
 	}
 }
