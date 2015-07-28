@@ -48,6 +48,11 @@
 			<Notes></Notes>
 		</OperatingSystem>
 		<OperatingSystem>
+			<OperatingSystemName>Red Hat Enterprise Linux v7</OperatingSystemName>
+			<Supported>true</Supported>
+			<Notes></Notes>
+		</OperatingSystem>
+		<OperatingSystem>
 			<OperatingSystemName>SUSE Linux Enterprise Server 9</OperatingSystemName>
 			<Supported>false</Supported>
 			<Notes></Notes>
@@ -62,6 +67,11 @@
 		</OperatingSystem>
 		<OperatingSystem>
 			<OperatingSystemName>SUSE Linux Enterprise Server 11</OperatingSystemName>
+			<Supported>true</Supported>
+			<Notes></Notes>
+		</OperatingSystem>
+		<OperatingSystem>
+			<OperatingSystemName>SUSE Linux Enterprise Server 12</OperatingSystemName>
 			<Supported>true</Supported>
 			<Notes></Notes>
 		</OperatingSystem>
@@ -146,6 +156,11 @@
 			</Notes>
 		</ApplicationServer>
 		<ApplicationServer>
+			<ApplicationServerName>Oracle Weblogic Server 12.1.3(12c R3)</ApplicationServerName>
+			<Supported>true</Supported>
+			<Notes></Notes>
+		</ApplicationServer>
+		<ApplicationServer>
 			<ApplicationServerName>JBoss Redhat EAP 4.3.x</ApplicationServerName>
 			<Supported>false</Supported>
 			<Notes>JBoss EAP 5.x runs on several versions of
@@ -214,6 +229,13 @@
 		</ApplicationServer>
 		<ApplicationServer>
 			<ApplicationServerName>TC Server 2.8.2</ApplicationServerName>
+			<Supported>true</Supported>
+			<Notes>This web server runs only with Pega 7
+				deployed in a servlet container (WAR).
+			</Notes>
+		</ApplicationServer>
+		<ApplicationServer>
+			<ApplicationServerName>TC Server 2.9</ApplicationServerName>
 			<Supported>true</Supported>
 			<Notes>This web server runs only with Pega 7
 				deployed in a servlet container (WAR).
@@ -312,6 +334,14 @@
 		</Database>
 		<Database>
 			<DatabaseName>SQL Server 2012</DatabaseName>
+			<Supported>true</Supported>
+			<Notes>Decision Strategy Manager (DSM) will not
+				SQL Server 2012 supported supported supported supported run on SQL
+				Server.
+			</Notes>
+		</Database>
+			<Database>
+			<DatabaseName>SQL Server 2014</DatabaseName>
 			<Supported>true</Supported>
 			<Notes>Decision Strategy Manager (DSM) will not
 				SQL Server 2012 supported supported supported supported run on SQL
