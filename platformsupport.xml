@@ -1,12 +1,7 @@
 <PlatformSupport>
-	<Platform-Version>Pega7.1.7</Platform-Version>
+	<Platform-Version>Pega7.1.9</Platform-Version>
 	
 	<OperatingSystems>
-		<OperatingSystem>
-			<OperatingSystemName>AIX v5.3</OperatingSystemName>
-			<Supported>false</Supported>
-			<Notes></Notes>
-		</OperatingSystem>
 		<OperatingSystem>
 			<OperatingSystemName>AIX v6.1</OperatingSystemName>
 			<Supported>true</Supported>
@@ -23,61 +18,65 @@
 			<Notes></Notes>
 		</OperatingSystem>
 		<OperatingSystem>
-			<OperatingSystemName>HP-UX 11i v2</OperatingSystemName>
-			<Supported>false</Supported>
-			<Notes></Notes>
-		</OperatingSystem>
-		<OperatingSystem>
 			<OperatingSystemName>HP-UX 11i v3</OperatingSystemName>
 			<Supported>true</Supported>
 			<Notes></Notes>
 		</OperatingSystem>
 		<OperatingSystem>
-			<OperatingSystemName>Red Hat Enterprise Linux v4</OperatingSystemName>
-			<Supported>false</Supported>
-			<Notes></Notes>
-		</OperatingSystem>
-		<OperatingSystem>
 			<OperatingSystemName>Red Hat Enterprise Linux v5</OperatingSystemName>
 			<Supported>true</Supported>
-			<Notes></Notes>
+			<Notes>Red Hat Enterprise Linux
+Life-cycle Dates:
+https://access.redhat.com/
+support/policy/updates/err
+ata
+Pegasystems tests Linux on
+the Intel and zSeries
+(“zLinux” or “Linux on
+System z”) platforms</Notes>
 		</OperatingSystem>
 		<OperatingSystem>
 			<OperatingSystemName>Red Hat Enterprise Linux v6</OperatingSystemName>
 			<Supported>true</Supported>
-			<Notes></Notes>
+			<Notes>Red Hat Enterprise Linux
+Life-cycle Dates:
+https://access.redhat.com/
+support/policy/updates/err
+ata
+Pegasystems tests Linux on
+the Intel and zSeries
+(“zLinux” or “Linux on
+System z”) platforms</Notes>
 		</OperatingSystem>
 		<OperatingSystem>
 			<OperatingSystemName>Red Hat Enterprise Linux v7</OperatingSystemName>
 			<Supported>true</Supported>
-			<Notes></Notes>
-		</OperatingSystem>
-		<OperatingSystem>
-			<OperatingSystemName>SUSE Linux Enterprise Server 9</OperatingSystemName>
-			<Supported>false</Supported>
-			<Notes></Notes>
+			<Notes>Red Hat Enterprise Linux
+Life-cycle Dates:
+https://access.redhat.com/
+support/policy/updates/err
+ata
+Pegasystems tests Linux on
+the Intel and zSeries
+(“zLinux” or “Linux on
+System z”) platforms</Notes>
 		</OperatingSystem>
 		<OperatingSystem>
 			<OperatingSystemName>SUSE Linux Enterprise Server 10</OperatingSystemName>
 			<Supported>true</Supported>
-			<Notes>Pegasystems tests Linux on the Intel and
-				zSeries (“zLinux” or “Linux on System z”)
-				platforms.
+			<Notes>
 			</Notes>
 		</OperatingSystem>
 		<OperatingSystem>
 			<OperatingSystemName>SUSE Linux Enterprise Server 11</OperatingSystemName>
 			<Supported>true</Supported>
-			<Notes></Notes>
+			<Notes>Pegasystems tests Linux on the Intel and
+				zSeries (“zLinux” or “Linux on System z”)
+				platforms.</Notes>
 		</OperatingSystem>
 		<OperatingSystem>
 			<OperatingSystemName>SUSE Linux Enterprise Server 12</OperatingSystemName>
 			<Supported>true</Supported>
-			<Notes></Notes>
-		</OperatingSystem>
-		<OperatingSystem>
-			<OperatingSystemName>Solaris 9</OperatingSystemName>
-			<Supported>false</Supported>
 			<Notes></Notes>
 		</OperatingSystem>
 		<OperatingSystem>
@@ -91,11 +90,6 @@
 			<Notes></Notes>
 		</OperatingSystem>
 		<OperatingSystem>
-			<OperatingSystemName>Windows 2003</OperatingSystemName>
-			<Supported>false</Supported>
-			<Notes></Notes>
-		</OperatingSystem>
-		<OperatingSystem>
 			<OperatingSystemName>Windows 2008</OperatingSystemName>
 			<Supported>true</Supported>
 			<Notes></Notes>
@@ -105,28 +99,43 @@
 			<Supported>true</Supported>
 			<Notes></Notes>
 		</OperatingSystem>
+		<OperatingSystem>
+			<OperatingSystemName>IBM z/OS v1.12</OperatingSystemName>
+			<Supported>true</Supported>
+			<Notes></Notes>
+		</OperatingSystem>
+		<OperatingSystem>
+			<OperatingSystemName>IBM z/OS V1.13</OperatingSystemName>
+			<Supported>true</Supported>
+			<Notes></Notes>
+		</OperatingSystem>
+		<OperatingSystem>
+			<OperatingSystemName>IBM z/OS v2.1</OperatingSystemName>
+			<Supported>true</Supported>
+			<Notes></Notes>
+		</OperatingSystem>
+		<OperatingSystem>
+			<OperatingSystemName>Oracle Enterprise Linux v7</OperatingSystemName>
+			<Supported>true</Supported>
+			<Notes></Notes>
+		</OperatingSystem>
 	</OperatingSystems>
 
 	<ApplicationServers>
 		<ApplicationServer>
-			<ApplicationServerName>WebSphere 6.1.x</ApplicationServerName>
-			<Supported>false</Supported>
-			<Notes></Notes>
-		</ApplicationServer>
-		<ApplicationServer>
 			<ApplicationServerName>WebSphere 7.0.x</ApplicationServerName>
 			<Supported>true</Supported>
-			<Notes></Notes>
+			<Notes>Supports IBM Java 6</Notes>
 		</ApplicationServer>
 		<ApplicationServer>
 			<ApplicationServerName>WebSphere 8.0.x</ApplicationServerName>
 			<Supported>true</Supported>
-			<Notes></Notes>
+			<Notes>Supports IBM Java 6</Notes>
 		</ApplicationServer>
 		<ApplicationServer>
 			<ApplicationServerName>WebSphere 8.5</ApplicationServerName>
 			<Supported>true</Supported>
-			<Notes></Notes>
+			<Notes>Supports IBM Java 6 or 7</Notes>
 		</ApplicationServer>
 		<ApplicationServer>
 			<ApplicationServerName>WebSphere 8.5.5</ApplicationServerName>
@@ -137,22 +146,29 @@
 				JVMs.
 			</Notes>
 		</ApplicationServer>
-		<ApplicationServer>
-			<ApplicationServerName>Oracle Weblogic Server 9.x</ApplicationServerName>
-			<Supported>false</Supported>
-			<Notes></Notes>
-		</ApplicationServer>
+		
 		<ApplicationServer>
 			<ApplicationServerName>Oracle Weblogic Server 11g (10.3.1 and higher)</ApplicationServerName>
 			<Supported>true</Supported>
-			<Notes></Notes>
+			<Notes>
+			Beginning in Pega 7.1.7, only Java 7 is supported; therefore, 
+			for 7.1.7 and later versions, 
+			only versions 10.3.6 or later of Oracle WebLogic Server will be supported. (WebLogic 10.3.1 through 10.3.5 support only Java6.)
+			</Notes>
 		</ApplicationServer>
 		<ApplicationServer>
 			<ApplicationServerName>Oracle Weblogic Server 12c</ApplicationServerName>
 			<Supported>true</Supported>
-			<Notes>Weblogic 12.1.2.0 will not work with Pega
-				7.1.0. 12.1.2.0 is supported beginning in
-				Pega 7.1.1.
+			<Notes>Oracle WebLogic Server
+12c versions 12.1.0 and
+12.1.1 are supported
+from Version 7.1 GA
+through 7.1.9.
+WebLogic 12.1.2.0 will
+not work with Pega 7.1.0,
+and is supported
+beginning in Pega version
+7.1.1.
 			</Notes>
 		</ApplicationServer>
 		<ApplicationServer>
@@ -160,29 +176,27 @@
 			<Supported>true</Supported>
 			<Notes></Notes>
 		</ApplicationServer>
-		<ApplicationServer>
-			<ApplicationServerName>JBoss Redhat EAP 4.3.x</ApplicationServerName>
-			<Supported>false</Supported>
-			<Notes>JBoss EAP 5.x runs on several versions of
-				Java. For Pega 7.1, JBoss on Java 6 and
-				Java 7 only are supported.
-			</Notes>
-		</ApplicationServer>
+		
 		<ApplicationServer>
 			<ApplicationServerName>JBoss Redhat EAP 5.0.x</ApplicationServerName>
 			<Supported>true</Supported>
-			<Notes>JBoss EAP 5.x runs on several versions of
-				Java. For Pega 7.1, JBoss on Java 6 and
-				Java 7 only are supported.
+			<Notes>Beginning in Pega 7.1.7,
+only Java 7 is supported;
+therefore, for 7.1.7 and
+later versions, JBoss EAP
+5.x is not supported. 
 			</Notes>
 		</ApplicationServer>
 		<ApplicationServer>
 			<ApplicationServerName>JBoss Redhat EAP 5.1.2</ApplicationServerName>
 			<Supported>true</Supported>
-			<Notes>JBoss EAP 5.1.0 is not supported.
-				JBoss EAP 5.x runs on several versions of
-				Java. For Pega 7.1, JBoss on Java 6 and
-				Java 7 only are supported.
+			<Notes>Beginning in Pega 7.1.7,
+only Java 7 is supported;
+therefore, for 7.1.7 and
+later versions, JBoss EAP
+5.x is not supported.
+NOTE: JBoss EAP 5.1.0 is
+not supported.
 			</Notes>
 		</ApplicationServer>
 		<ApplicationServer>
@@ -192,33 +206,23 @@
 				Pega 7 deployed in a servlet container
 				(WAR). The EAR deployment is supported
 				beginning in Pega 7.1.5.
-				Decision Strategy Manager (DSM) will not
-				run on JBoss 6.x.
+				
 			</Notes>
 		</ApplicationServer>
 		<ApplicationServer>
 			<ApplicationServerName>JBoss Redhat EAP 6.2.x</ApplicationServerName>
 			<Supported>true</Supported>
-			<Notes>JBoss 6.2 is supported for Pega 7.1.7. The
-				JBoss 6.2 Installation Guide will be
-				available on the PDN shortly. (The JBoss
-				6.1 Installation Guide may be used until
-				the 6.2 Guide is completed.)
-				Decision Strategy Manager (DSM) will not
-				run on JBoss 6.x.
-			</Notes>
+			<Notes></Notes>
 		</ApplicationServer>
 		<ApplicationServer>
 			<ApplicationServerName>JBoss Redhat EAP 6.3.x</ApplicationServerName>
 			<Supported>true</Supported>
-			<Notes>JBoss 6.3 is supported for Pega 7.1.7. The
-				JBoss 6.3 Installation Guide will be
-				available on the PDN shortly. (The JBoss
-				6.1 Installation Guide may be used until
-				the 6.3 Guide is completed.)
-				Decision Strategy Manager (DSM) will not
-				run on JBoss 6.x.
-			</Notes>
+			<Notes>	</Notes>
+		</ApplicationServer>
+		<ApplicationServer>
+			<ApplicationServerName>JBoss Redhat EAP 6.4</ApplicationServerName>
+			<Supported>true</Supported>
+			<Notes>Supports Java 6,7, or 8	</Notes>
 		</ApplicationServer>
 		<ApplicationServer>
 			<ApplicationServerName>JBoss EWS (Enterprise Web Server) 2.0</ApplicationServerName>
@@ -255,16 +259,23 @@
 				deployed in a servlet container (WAR).
 			</Notes>
 		</ApplicationServer>
+		<ApplicationServer>
+			<ApplicationServerName>Tomcat 8.x</ApplicationServerName>
+			<Supported>true</Supported>
+			<Notes>This web server runs only with Pega 7
+				deployed in a servlet container (WAR).
+			</Notes>
+		</ApplicationServer>
 	</ApplicationServers>
 
 	<RelationalDatabases>
 		<Database>
 			<DatabaseName>DB2 for LUW v9.7</DatabaseName>
-			<Supported>true</Supported>
-			<Notes>Progressive streaming must be used to
-				run Pega 7 with DB2 version 9.7. Please
-				reference the PDN article “System won’t
-				start when using DB2 version 9.5”.
+			<Supported>false</Supported>
+			<Notes>IBM has withdrawn DB2
+LUW v9.7 from marketing,
+so this will not be
+supported beginni
 			</Notes>
 		</Database>
 		<Database>
@@ -279,7 +290,7 @@
 		</Database>
 		<Database>
 			<DatabaseName>DB2 for z/OS v9</DatabaseName>
-			<Supported>true</Supported>
+			<Supported>false</Supported>
 			<Notes></Notes>
 		</Database>
 		<Database>
@@ -288,24 +299,43 @@
 			<Notes></Notes>
 		</Database>
 		<Database>
+			<DatabaseName>DB2 for z/OS v11</DatabaseName>
+			<Supported>true</Supported>
+			<Notes></Notes>
+		</Database>
+		<Database>
 			<DatabaseName>Oracle 11g R2</DatabaseName>
 			<Supported>true</Supported>
-			<Notes>Pega 7 has been successfully deployed in
-				Oracle RAC (Real Application Cluster)
-				configurations, and Pegasystems supports
-				this deployment mode. Future product
-				plans may broaden RAC support to
-				leverage the Oracle Clusterware High
-				Availability API and to publish scalability benchmark data
+			<Notes>PRPC has been successfully
+deployed in Oracle RAC
+(Real Application Cluster)
+configurations, and
+Pegasystems supports this
+deployment mode. Future
+product plans may broaden
+RAC support to leverage
+the Oracle Clusterware
+High Availability API and to
+publish scalability benchmark data.
 			</Notes>
 		</Database>
 		<Database>
 			<DatabaseName>Oracle 12c</DatabaseName>
 			<Supported>true</Supported>
-			<Notes></Notes>
+			<Notes>PRPC has been successfully
+deployed in Oracle RAC
+(Real Application Cluster)
+configurations, and
+Pegasystems supports this
+deployment mode. Future
+product plans may broaden
+RAC support to leverage
+the Oracle Clusterware
+High Availability API and to
+publish scalability benchmark data.</Notes>
 		</Database>
 		<Database>
-			<DatabaseName>PostgreSQL 9.1.x Community Edition</DatabaseName>
+			<DatabaseName>PostgreSQL 9.1.x Community Editon</DatabaseName>
 			<Supported>true</Supported>
 			<Notes>PostgreSQL is only supported for the
 				Tomcat webserver.
@@ -318,34 +348,46 @@
 			</Notes>
 		</Database>
 		<Database>
-			<DatabaseName>Postgres Plus Standard Edition (Enterprise DB) 9.1.x</DatabaseName>
+			<DatabaseName>Postgres Plus Standard Edition (Enterprise DB) 9.1.X</DatabaseName>
+			<Supported>true</Supported>
+			<Notes>Supported for Enterprise installations PostgreSQL is NOT supported for zLinux.
+			</Notes>
+		</Database>
+		<Database>
+			<DatabaseName>PostgreSQL 9.3.x Community Edition</DatabaseName>
+			<Supported>true</Supported>
+			<Notes>PostgreSQL is only supported for the
+				Tomcat webserver.
+				PostgreSQL is NOT supported for zLinux.
+				IMPORTANT: The Postgres Community
+				Editions are not supported for production
+				enterprise systems. Only the Enterprise
+				DB versions of Postgres are supported for
+				enterprise installations.
+			</Notes>
+		</Database>
+		<Database>
+			<DatabaseName>Postgres Plus Standard Edition (Enterprise DB) 9.3.x</DatabaseName>
 			<Supported>true</Supported>
 			<Notes>supported for Enterprise installations
-				PostgreSQL is NOT supported for zLinux.
 			</Notes>
 		</Database>
 		<Database>
 			<DatabaseName>SQL Server 2008 R2</DatabaseName>
 			<Supported>true</Supported>
-			<Notes>Decision Strategy Manager (DSM) will not
-				SQL Server 2012 supported supported supported supported run on SQL
-				Server.
+			<Notes>
 			</Notes>
 		</Database>
 		<Database>
 			<DatabaseName>SQL Server 2012</DatabaseName>
 			<Supported>true</Supported>
-			<Notes>Decision Strategy Manager (DSM) will not
-				SQL Server 2012 supported supported supported supported run on SQL
-				Server.
+			<Notes>
 			</Notes>
 		</Database>
 			<Database>
 			<DatabaseName>SQL Server 2014</DatabaseName>
 			<Supported>true</Supported>
-			<Notes>Decision Strategy Manager (DSM) will not
-				SQL Server 2012 supported supported supported supported run on SQL
-				Server.
+			<Notes>
 			</Notes>
 		</Database>
 	</RelationalDatabases>
@@ -386,3 +428,4 @@
 	</JavaVersion-IBM>
 
 </PlatformSupport>
+
