@@ -3,6 +3,11 @@
 	
 	<OperatingSystems>
 		<OperatingSystem>
+			<OperatingSystemName>AIX v5.3</OperatingSystemName>
+			<Supported>false</Supported>
+			<Notes></Notes>
+		</OperatingSystem>
+		<OperatingSystem>
 			<OperatingSystemName>AIX v6.1</OperatingSystemName>
 			<Supported>true</Supported>
 			<Notes></Notes>
@@ -122,6 +127,11 @@ System z”) platforms</Notes>
 	</OperatingSystems>
 
 	<ApplicationServers>
+		<ApplicationServer>
+			<ApplicationServerName>WebSphere 6.1.x</ApplicationServerName>
+			<Supported>false</Supported>
+			<Notes></Notes>
+		</ApplicationServer>
 		<ApplicationServer>
 			<ApplicationServerName>WebSphere 7.0.x</ApplicationServerName>
 			<Supported>true</Supported>
